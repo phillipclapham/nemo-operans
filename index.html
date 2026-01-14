@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Nemo Operans - Essays on human-AI collaboration, cognitive infrastructure, and constraint-based design." />
+    <meta name="theme-color" content="#0a0a0b" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nemooperans.com" />
+    <meta property="og:title" content="Nemo Operans" />
+    <meta property="og:description" content="Essays on human-AI collaboration, cognitive infrastructure, and constraint-based design." />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Nemo Operans" />
+    <meta name="twitter:description" content="Essays on human-AI collaboration, cognitive infrastructure, and constraint-based design." />
+
+    <title>Nemo Operans</title>
+
+    <!-- Theme: Prevent FOUC - Dark mode is default -->
+    <script>
+      (function() {
+        const saved = localStorage.getItem('nemo-theme');
+        // Only apply light mode if explicitly saved
+        if (saved === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+        // Dark is default - no attribute needed
+      })();
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container">
+        <a href="/" class="site-logo">Nemo Operans</a>
+        <nav class="site-nav">
+          <a href="/about">About</a>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+            <span class="theme-icon"></span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="container">
+          <h1 class="hero-title">Nemo Operans</h1>
+          <p class="hero-tagline">"The world is noisy. Make things that whisper&mdash;and are still heard."</p>
+        </div>
+      </section>
+
+      <!-- Essays -->
+      <section class="essays-section">
+        <div class="container container--reading">
+          <h2 class="section-title">Essays</h2>
+
+          <div class="essay-list">
+            <a href="/the-memory-illusion" class="essay-card">
+              <h3 class="essay-card-title">The Memory Illusion</h3>
+              <p class="essay-card-subtitle">Why Your AI Remembers You But Doesn't Know You</p>
+              <span class="essay-card-meta">January 2026</span>
+            </a>
+
+            <!-- Future essays will stack here -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <p class="footer-ecosystem">Part of the Adaptive Human ecosystem</p>
+        <div class="footer-links">
+          <a href="https://protocolmemory.com" target="_blank" rel="noopener">Protocol Memory</a>
+          <a href="https://adapthuman.com" target="_blank" rel="noopener">Adaptive Human</a>
+          <a href="https://phillipclapham.com" target="_blank" rel="noopener">Phillip Clapham</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Theme Toggle Script -->
+    <script src="scripts/theme.js"></script>
+  </body>
+</html>
