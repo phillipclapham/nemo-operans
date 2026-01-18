@@ -227,6 +227,19 @@ main {
   box-shadow: var(--shadow-md);
 }
 
+.essay-card-tag {
+  display: inline-block;
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 2px var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  margin-bottom: var(--space-3);
+}
+
 .essay-card-title {
   font-size: var(--text-2xl);
   font-weight: var(--font-semibold);
