@@ -476,6 +476,20 @@ main {
   color: var(--accent);
 }
 
+.footer-copyright {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+.footer-copyright a {
+  color: var(--text-secondary);
+}
+
+.footer-copyright a:hover {
+  color: var(--accent);
+}
+
 
 /* ============================================
    RESPONSIVE
