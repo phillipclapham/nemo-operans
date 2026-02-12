@@ -436,6 +436,23 @@ main {
   margin-bottom: var(--space-3);
 }
 
+.about-content h3 {
+  font-size: var(--text-xl);
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-4);
+  color: var(--text-primary);
+}
+
+.about-content h3 a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.about-content h3 a:hover {
+  color: var(--accent);
+}
+
 .about-content hr {
   border: none;
   border-top: 1px solid var(--border);
