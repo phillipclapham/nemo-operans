@@ -363,6 +363,29 @@ main {
   border-radius: var(--radius-sm);
 }
 
+.essay-content pre {
+  margin-bottom: var(--space-6);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--line-relaxed);
+  background-color: var(--bg-surface);
+  padding: var(--space-6);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.essay-content pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+.essay-content .codehilite {
+  margin-bottom: var(--space-8);
+}
+
 .essay-content hr {
   border: none;
   border-top: 1px solid var(--border);

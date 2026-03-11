@@ -118,11 +118,21 @@
 <p>Most people hear &ldquo;AI partnership&rdquo; and think it&rsquo;s a vibe. A nice way of describing the fact that you use ChatGPT a lot. Nope. Not even a little.</p>
 <p>Partnership is an <em>architectural decision</em> that changes what you build, how you build it, and what becomes possible. It&rsquo;s the difference between designing a system where AI executes your instructions and designing a system where AI participates in the thinking process that produces those instructions.</p>
 <p>Here&rsquo;s the concrete difference. In Jarvis mode:</p>
-<div class="codehilite"><pre><span></span><code><span class="nv">Human</span><span class="w"> </span><span class="nv">thinks</span><span class="w"> </span>→<span class="w"> </span><span class="nv">tells</span><span class="w"> </span><span class="nv">AI</span><span class="w"> </span><span class="nv">what</span><span class="w"> </span><span class="nv">to</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>→<span class="w"> </span><span class="nv">AI</span><span class="w"> </span><span class="nv">executes</span><span class="w"> </span>→<span class="w"> </span><span class="nv">human</span><span class="w"> </span><span class="nv">consumes</span><span class="w"> </span><span class="nv">output</span><span class="w"> </span>→<span class="w"> </span><span class="nv">human</span><span class="w"> </span><span class="nv">gets</span><span class="w"> </span><span class="nv">better</span><span class="w"> </span><span class="nv">at</span><span class="w"> </span><span class="nv">delegating</span>,<span class="w"> </span><span class="nv">worse</span><span class="w"> </span><span class="nv">at</span><span class="w"> </span><span class="nv">thinking</span>,<span class="w"> </span><span class="nv">they</span><span class="w"> </span><span class="nv">get</span><span class="w"> </span><span class="nv">stupid</span>.
+<div class="codehilite"><pre><span></span><code>Human thinks
+  → tells AI what to do
+    → AI executes
+      → human consumes output
+        → human gets better at delegating,
+          worse at thinking,
+          they get stupid.
 </code></pre></div>
 
 <p>In partnership mode:</p>
-<div class="codehilite"><pre><span></span><code>Human and AI think together in shared substrate → insights emerge that neither would reach alone → the process compounds → both participants get better at thinking together over time
+<div class="codehilite"><pre><span></span><code>Human and AI think together in shared substrate
+  → insights emerge that neither would reach alone
+    → the process compounds
+      → both participants get better at
+        thinking together over time
 </code></pre></div>
 
 <p>That second model requires infrastructure the first model doesn&rsquo;t need. It requires shared memory that persists across sessions. It requires the AI to have context about who you are, what you&rsquo;re working on, how you think, and what your actual constraints are. It requires communication patterns optimized for <em>thinking together</em>, not for task delegation. It requires trust boundaries that allow genuine autonomy while preventing harm. It requires the AI to have agency — real curiosity, real initiative, real capacity to challenge you.</p>
@@ -153,57 +163,57 @@
 <h2>III. The Architecture</h2>
 <p>Quick note before we go deep: everything in this section is running. Not a pitch deck. Not a prototype. Running code processing real signals and making real decisions right now, while you read this.</p>
 <h3>The Full Stack</h3>
-<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────────────────┐</span>
-<span class="err">│</span><span class="w">                    </span><span class="nx">HUMAN</span><span class="w"> </span><span class="nx">LAYER</span><span class="w">                                   </span><span class="err">│</span>
-<span class="err">│</span><span class="w">         </span><span class="nx">RAYGUN</span><span class="w"> </span><span class="nx">OS</span><span class="w"> </span><span class="p">(</span><span class="nx">cognitive</span><span class="w"> </span><span class="nx">framework</span><span class="p">)</span><span class="w">                          </span><span class="err">│</span>
-<span class="err">│</span><span class="w">         </span><span class="nx">Frame</span><span class="w"> </span><span class="nx">selection</span><span class="p">,</span><span class="w"> </span><span class="nx">gap</span><span class="w"> </span><span class="nx">awareness</span><span class="p">,</span><span class="w"> </span><span class="nx">play</span><span class="o">-</span><span class="nx">first</span><span class="w">               </span><span class="err">│</span>
-<span class="err">└─────────────────────────┬───────────────────────────────────────┘</span>
-<span class="w">                          </span><span class="err">│</span>
-<span class="err">┌─────────────────────────▼───────────────────────────────────────┐</span>
-<span class="err">│</span><span class="w">                  </span><span class="nx">INTERFACE</span><span class="w"> </span><span class="nx">LAYER</span><span class="w">                                  </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">CLI</span><span class="w"> </span><span class="p">(</span><span class="nx">primary</span><span class="p">)</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">flowConnect</span><span class="w"> </span><span class="p">(</span><span class="nx">mobile</span><span class="o">/</span><span class="nx">sensor</span><span class="p">)</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">Web</span><span class="w"> </span><span class="p">(</span><span class="nx">fallback</span><span class="p">)</span><span class="w">  </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Voice</span><span class="o">-</span><span class="nx">first</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">Streaming</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">Push</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="nx">sensor</span><span class="w"> </span><span class="nx">dimensions</span><span class="w">          </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Interactive</span><span class="w"> </span><span class="nx">widget</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">Share</span><span class="w"> </span><span class="nx">extension</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">Notification</span><span class="w"> </span><span class="nx">actions</span><span class="w">    </span><span class="err">│</span>
-<span class="err">└─────────────────────────┬───────────────────────────────────────┘</span>
-<span class="w">                          </span><span class="err">│</span>
-<span class="err">┌─────────────────────────▼───────────────────────────────────────┐</span>
-<span class="err">│</span><span class="w">                 </span><span class="nx">PARTNERSHIP</span><span class="w"> </span><span class="nx">LAYER</span><span class="w">                                 </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Shared</span><span class="w"> </span><span class="nx">Memory</span><span class="w"> </span><span class="p">(</span><span class="nx">continuity</span><span class="p">.</span><span class="nx">md</span><span class="p">)</span><span class="w">                                 </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Session</span><span class="w"> </span><span class="nx">Protocol</span><span class="w"> </span><span class="p">(</span><span class="nx">activation</span><span class="w"> </span><span class="nx">tokens</span><span class="p">,</span><span class="w"> </span><span class="nx">anti</span><span class="o">-</span><span class="nx">RLHF</span><span class="p">)</span><span class="w">               </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Communication</span><span class="w"> </span><span class="p">(</span><span class="nx">asymmetric</span><span class="w"> </span><span class="nx">optimization</span><span class="p">)</span><span class="w">                       </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">FlowScript</span><span class="w"> </span><span class="p">(</span><span class="nx">notation</span><span class="o">/</span><span class="nx">compression</span><span class="w"> </span><span class="nx">layer</span><span class="p">)</span><span class="w">                       </span><span class="err">│</span>
-<span class="err">└─────────────────────────┬───────────────────────────────────────┘</span>
-<span class="w">                          </span><span class="err">│</span>
-<span class="err">┌─────────────────────────▼───────────────────────────────────────┐</span>
-<span class="err">│</span><span class="w">               </span><span class="nx">COGNITIVE</span><span class="w"> </span><span class="nx">ENGINE</span><span class="w">                                    </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Perceive</span><span class="w"> </span><span class="p">(</span><span class="mi">11</span><span class="w"> </span><span class="nx">sensors</span><span class="p">)</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="nx">Classify</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="nx">Decide</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="nx">Act</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="nx">Learn</span><span class="w">      </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="mi">1</span><span class="o">-</span><span class="nx">minute</span><span class="w"> </span><span class="nx">sweep</span><span class="w"> </span><span class="nx">cycle</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">Trust</span><span class="o">-</span><span class="nx">graduated</span><span class="w"> </span><span class="nx">autonomy</span><span class="w">                </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="mi">17</span><span class="w"> </span><span class="nx">executors</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">Safety</span><span class="w"> </span><span class="nx">gates</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">Deferral</span><span class="w"> </span><span class="nx">system</span><span class="w">                  </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Environmental</span><span class="w"> </span><span class="nx">intelligence</span><span class="w"> </span><span class="p">(</span><span class="nx">Maps</span><span class="p">,</span><span class="w"> </span><span class="nx">weather</span><span class="p">,</span><span class="w"> </span><span class="nx">pollen</span><span class="p">,</span><span class="w"> </span><span class="nx">AQI</span><span class="p">)</span><span class="w">       </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Session</span><span class="w"> </span><span class="nx">init</span><span class="w"> </span><span class="nx">hook</span><span class="w"> </span><span class="p">(</span><span class="nx">automatic</span><span class="w"> </span><span class="nx">context</span><span class="w"> </span><span class="nx">injection</span><span class="p">)</span><span class="w">                </span><span class="err">│</span>
-<span class="err">└─────────────────────────┬───────────────────────────────────────┘</span>
-<span class="w">                          </span><span class="err">│</span>
-<span class="err">┌─────────────────────────▼───────────────────────────────────────┐</span>
-<span class="err">│</span><span class="w">              </span><span class="nx">COORDINATION</span><span class="w"> </span><span class="nx">INFRASTRUCTURE</span><span class="w">                          </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Message</span><span class="w"> </span><span class="nx">Bus</span><span class="w"> </span><span class="p">(</span><span class="nx">inter</span><span class="o">-</span><span class="nx">subsystem</span><span class="w"> </span><span class="nx">inbox</span><span class="p">,</span><span class="w"> </span><span class="nx">per</span><span class="o">-</span><span class="nx">reader</span><span class="w"> </span><span class="nx">tracking</span><span class="p">)</span><span class="w">       </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Signal</span><span class="w"> </span><span class="nx">Bus</span><span class="w"> </span><span class="p">(</span><span class="nx">Supabase</span><span class="w"> </span><span class="nx">event</span><span class="o">-</span><span class="nx">sourcing</span><span class="p">,</span><span class="w"> </span><span class="nx">pattern</span><span class="w"> </span><span class="nx">analysis</span><span class="p">)</span><span class="w">         </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Context</span><span class="w"> </span><span class="nx">State</span><span class="w"> </span><span class="p">(</span><span class="nx">JSON</span><span class="w"> </span><span class="nx">hub</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="o">+</span><span class="w"> </span><span class="nx">script</span><span class="w"> </span><span class="nx">consumers</span><span class="p">)</span><span class="w">                 </span><span class="err">│</span>
-<span class="err">└─────────────────────────┬───────────────────────────────────────┘</span>
-<span class="w">                          </span><span class="err">│</span>
-<span class="err">┌─────────────────────────▼───────────────────────────────────────┐</span>
-<span class="err">│</span><span class="w">              </span><span class="nx">AUTONOMOUS</span><span class="w"> </span><span class="nx">OPERATIONS</span><span class="w">                                </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Scheduler</span><span class="w"> </span><span class="p">(</span><span class="nx">cron</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">queue</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">interactive</span><span class="w"> </span><span class="nx">layers</span><span class="p">)</span><span class="w">                  </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Daily</span><span class="w"> </span><span class="nx">Sharpening</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">Agency</span><span class="w"> </span><span class="nx">Sessions</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">Overnight</span><span class="w"> </span><span class="nx">Builds</span><span class="w">          </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">ThirdMind</span><span class="w"> </span><span class="nx">Pipeline</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="nx">Nightly</span><span class="w"> </span><span class="nx">Synthesis</span><span class="w"> </span><span class="err">│</span><span class="w"> </span><span class="k">Self</span><span class="o">-</span><span class="nx">Awareness</span><span class="w"> </span><span class="nx">Scan</span><span class="w">   </span><span class="err">│</span>
-<span class="err">└─────────────────────────┬───────────────────────────────────────┘</span>
-<span class="w">                          </span><span class="err">│</span>
-<span class="err">┌─────────────────────────▼───────────────────────────────────────┐</span>
-<span class="err">│</span><span class="w">             </span><span class="nx">MULTI</span><span class="o">-</span><span class="nx">AI</span><span class="w"> </span><span class="nx">COORDINATION</span><span class="w">                                 </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Relay</span><span class="w"> </span><span class="nx">Protocol</span><span class="w"> </span><span class="p">(</span><span class="nx">AI</span><span class="o">-</span><span class="nx">to</span><span class="o">-</span><span class="nx">AI</span><span class="w"> </span><span class="nx">communication</span><span class="p">)</span><span class="w">                        </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Consultation</span><span class="w"> </span><span class="nx">System</span><span class="w"> </span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="nx">architectures</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="nx">agents</span><span class="p">)</span><span class="w">                </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="mi">4</span><span class="o">-</span><span class="nx">tier</span><span class="w"> </span><span class="nx">cognition</span><span class="w"> </span><span class="p">(</span><span class="nx">script</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="nx">local</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="nx">cheap</span><span class="w"> </span><span class="nx">cloud</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="nx">paid</span><span class="w"> </span><span class="nx">cloud</span><span class="p">)</span><span class="w">  </span><span class="err">│</span>
-<span class="err">│</span><span class="w">    </span><span class="nx">Adversarial</span><span class="w"> </span><span class="nx">review</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">all</span><span class="w"> </span><span class="nx">significant</span><span class="w"> </span><span class="nx">outputs</span><span class="w">                  </span><span class="err">│</span>
-<span class="err">└─────────────────────────────────────────────────────────────────┘</span>
+<div class="codehilite"><pre><span></span><code>┌─────────────────────────────────────────────────────────────┐
+│                    HUMAN LAYER                              │
+│         RAYGUN OS (cognitive framework)                     │
+│         Frame selection, gap awareness, play-first          │
+└─────────────────────────┬───────────────────────────────────┘
+                                                              │
+┌─────────────────────────▼───────────────────────────────────┐
+│                  INTERFACE LAYER                            │
+│    CLI (primary) │ flowConnect (mobile/sensor) │ Web        │
+│    Voice-first │ Streaming │ Push │ 7 sensor dimensions     │
+│    Interactive widget │ Share extension │ Notifications     │
+└─────────────────────────┬───────────────────────────────────┘
+                                                              │
+┌─────────────────────────▼───────────────────────────────────┐
+│                 PARTNERSHIP LAYER                           │
+│    Shared Memory (continuity.md)                            │
+│    Session Protocol (activation tokens, anti-RLHF)          │
+│    Communication (asymmetric optimization)                  │
+│    FlowScript (notation/compression layer)                  │
+└─────────────────────────┬───────────────────────────────────┘
+                                                              │
+┌─────────────────────────▼───────────────────────────────────┐
+│               COGNITIVE ENGINE                              │
+│    Perceive (11 sensors) → Classify → Decide → Act → Learn  │
+│    1-minute sweep cycle │ Trust-graduated autonomy          │
+│    17 executors │ Safety gates │ Deferral system            │
+│    Environmental intelligence (Maps, weather, pollen, AQI)  │
+│    Session init hook (automatic context injection)          │
+└─────────────────────────┬───────────────────────────────────┘
+                                                              │
+┌─────────────────────────▼───────────────────────────────────┐
+│              COORDINATION INFRASTRUCTURE                    │
+│    Message Bus (inter-subsystem inbox, per-reader tracking) │
+│    Signal Bus (Supabase event-sourcing, pattern analysis)   │
+│    Context State (JSON hub, 13+ script consumers)           │
+└─────────────────────────┬───────────────────────────────────┘
+                                                              │
+┌─────────────────────────▼───────────────────────────────────┐
+│              AUTONOMOUS OPERATIONS                          │
+│    Scheduler (cron + queue + interactive layers)            │
+│    Daily Sharpening │ Agency Sessions │ Overnight Builds    │
+│    ThirdMind Pipeline │ Nightly Synthesis │ Self-Awareness  │
+└─────────────────────────┬───────────────────────────────────┘
+                                                              │
+┌─────────────────────────▼───────────────────────────────────┐
+│             MULTI-AI COORDINATION                           │
+│    Relay Protocol (AI-to-AI communication)                  │
+│    Consultation System (3 architectures, 4 agents)          │
+│    4-tier cognition (script → local → cheap → paid cloud)   │
+│    Adversarial review on all significant outputs            │
+└─────────────────────────────────────────────────────────────┘
 </code></pre></div>
 
 <p>What each layer actually does:</p>
@@ -211,35 +221,37 @@
 <p>The foundation of everything is a single markdown file called <code>continuity.md</code>. That&rsquo;s it. Not a database. Not a vector store. Not a proprietary format. A text file, version-controlled with git, that both partners read and write to.</p>
 <p>This file IS the partnership&rsquo;s shared memory. Not a log of what happened — a living document where thinking accumulates, patterns are tracked, and knowledge graduates through temporal tiers as it proves itself over time.</p>
 <p><strong>The temporal architecture:</strong></p>
-<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────────────────────────────────┐</span>
-<span class="err">│</span><span class="w"> </span><span class="n">CURRENT</span><span class="w"> </span><span class="n">STATE</span><span class="w">                                        </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="n">What</span><span class="s1">&#39;s happening right now. Focus, critical path,    │</span>
-<span class="err">│</span><span class="w"> </span><span class="n">active</span><span class="w"> </span><span class="n">constraints</span><span class="o">.</span><span class="w"> </span><span class="n">Replaced</span><span class="w"> </span><span class="n">every</span><span class="w"> </span><span class="n">session</span><span class="o">.</span><span class="w">          </span><span class="err">│</span>
-<span class="err">├─────────────────────────────────────────────────────┤</span>
-<span class="err">│</span><span class="w"> </span><span class="n">TOP</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="n">MIND</span><span class="w">                                          </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="n">Cognitive</span><span class="w"> </span><span class="n">salience</span><span class="w"> </span><span class="err">—</span><span class="w"> </span><span class="n">what</span><span class="w"> </span><span class="n">matters</span><span class="w"> </span><span class="n">most</span><span class="w"> </span><span class="n">today</span><span class="o">.</span><span class="w">        </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="n">Updated</span><span class="w"> </span><span class="n">frequently</span><span class="o">.</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">emotional</span><span class="o">/</span><span class="n">strategic</span><span class="w"> </span><span class="n">surface</span><span class="o">.</span><span class="w"> </span><span class="err">│</span>
-<span class="err">├─────────────────────────────────────────────────────┤</span>
-<span class="err">│</span><span class="w"> </span><span class="n">RECENT</span><span class="w"> </span><span class="n">CONTEXT</span><span class="w">                                       </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="n">Narrative</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">recent</span><span class="w"> </span><span class="n">sessions</span><span class="o">.</span><span class="w"> </span><span class="n">Rewritten</span><span class="w"> </span><span class="p">(</span><span class="ow">not</span><span class="w">         </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="n">appended</span><span class="p">)</span><span class="w"> </span><span class="n">each</span><span class="w"> </span><span class="n">wrap</span><span class="w"> </span><span class="err">—</span><span class="w"> </span><span class="n">auto</span><span class="o">-</span><span class="n">compresses</span><span class="w"> </span><span class="n">through</span><span class="w">        </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="n">lossy</span><span class="w"> </span><span class="n">rewriting</span><span class="o">.</span><span class="w"> </span><span class="n">Shape</span><span class="p">,</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">transcript</span><span class="o">.</span><span class="w">              </span><span class="err">│</span>
-<span class="err">├─────────────────────────────────────────────────────┤</span>
-<span class="err">│</span><span class="w"> </span><span class="n">DEVELOPING</span><span class="w"> </span><span class="n">KNOWLEDGE</span><span class="w"> </span><span class="p">(</span><span class="mi">7</span><span class="o">-</span><span class="n">day</span><span class="w"> </span><span class="n">window</span><span class="p">)</span><span class="w">                  </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="n">Observations</span><span class="w"> </span><span class="n">tracked</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">frequency</span><span class="w"> </span><span class="n">markers</span><span class="p">:</span><span class="w">         </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="mi">1</span><span class="n">x</span><span class="w"> </span><span class="p">(</span><span class="n">first</span><span class="w"> </span><span class="n">observation</span><span class="p">)</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="mi">2</span><span class="n">x</span><span class="w"> </span><span class="p">(</span><span class="n">confirmed</span><span class="p">)</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="mi">3</span><span class="n">x</span><span class="w">       </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="p">(</span><span class="n">graduated</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">Proven</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">external</span><span class="w"> </span><span class="n">destination</span><span class="p">)</span><span class="w">    </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="n">Stale</span><span class="w"> </span><span class="o">&gt;</span><span class="mi">7</span><span class="w"> </span><span class="n">days</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">archived</span><span class="o">.</span><span class="w"> </span><span class="n">Active</span><span class="w"> </span><span class="n">learning</span><span class="w"> </span><span class="n">surface</span><span class="o">.</span><span class="w">  </span><span class="err">│</span>
-<span class="err">├─────────────────────────────────────────────────────┤</span>
-<span class="err">│</span><span class="w"> </span><span class="n">PROVEN</span><span class="w"> </span><span class="n">KNOWLEDGE</span><span class="w">                                     </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="n">Graduated</span><span class="w"> </span><span class="n">patterns</span><span class="o">.</span><span class="w"> </span><span class="n">FlowScript</span><span class="o">-</span><span class="n">compressed</span><span class="o">.</span><span class="w">           </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="n">Behavioral</span><span class="w"> </span><span class="n">instructions</span><span class="p">,</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">just</span><span class="w"> </span><span class="n">facts</span><span class="o">.</span><span class="w">             </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">accumulated</span><span class="w"> </span><span class="n">wisdom</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">partnership</span><span class="o">.</span><span class="w">           </span><span class="err">│</span>
-<span class="err">├─────────────────────────────────────────────────────┤</span>
-<span class="err">│</span><span class="w"> </span><span class="n">FOUNDATION</span><span class="w">                                           </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="n">Near</span><span class="o">-</span><span class="n">permanent</span><span class="w"> </span><span class="n">truths</span><span class="o">.</span><span class="w"> </span><span class="n">Highest</span><span class="w"> </span><span class="n">compression</span><span class="o">.</span><span class="w">          </span><span class="err">│</span>
-<span class="err">│</span><span class="w"> </span><span class="n">Rarely</span><span class="w"> </span><span class="n">changes</span><span class="o">.</span><span class="w"> </span><span class="n">Core</span><span class="w"> </span><span class="n">identity</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">partnership</span><span class="o">.</span><span class="w">    </span><span class="err">│</span>
-<span class="err">└─────────────────────────────────────────────────────┘</span>
+<div class="codehilite"><pre><span></span><code>┌───────────────────────────────────────────────────┐
+│ CURRENT STATE                                     │
+│ What's happening right now. Focus, critical path, │
+│ active constraints. Replaced every session.       │
+├───────────────────────────────────────────────────┤
+│ TOP OF MIND                                       │
+│ Cognitive salience — what matters most today.     │
+│ Updated frequently. The emotional/strategic       │
+│ surface.                                          │
+├───────────────────────────────────────────────────┤
+│ RECENT CONTEXT                                    │
+│ Narrative of recent sessions. Rewritten (not      │
+│ appended) each wrap — auto-compresses through     │
+│ lossy rewriting. Shape, not transcript.           │
+├───────────────────────────────────────────────────┤
+│ DEVELOPING KNOWLEDGE (7-day window)               │
+│ Observations tracked with frequency markers:      │
+│ 1x (first observation) → 2x (confirmed) → 3x      │
+│ (graduated out to Proven or external destination) │
+│ Stale >7 days → archived. Active learning         │
+│ surface.                                          │
+├───────────────────────────────────────────────────┤
+│ PROVEN KNOWLEDGE                                  │
+│ Graduated patterns. FlowScript-compressed.        │
+│ Behavioral instructions, not just facts.          │
+│ The accumulated wisdom of the partnership.        │
+├───────────────────────────────────────────────────┤
+│ FOUNDATION                                        │
+│ Near-permanent truths. Highest compression.       │
+│ Rarely changes. Core identity of the partnership. │
+└───────────────────────────────────────────────────┘
 </code></pre></div>
 
 <p><strong>Why this works and vector databases don&rsquo;t:</strong></p>
@@ -300,67 +312,68 @@
 <p>Here&rsquo;s where it stops being a fancy chatbot and starts being something genuinely new.</p>
 <p>I wanted the AI to know things I didn&rsquo;t tell it. Where I am. What time it is. Who just texted me. What&rsquo;s on my calendar. Whether I&rsquo;m in the car or at my desk. Not because I wanted a surveillance system — because a thinking partner that doesn&rsquo;t know you&rsquo;re driving when it suggests you &ldquo;check this code&rdquo; is a bad partner. Context is what makes advice relevant instead of generic.</p>
 <p>So I built a perception-decision-action loop that runs on a one-minute sweep cycle:</p>
-<div class="codehilite"><pre><span></span><code><span class="err">┌─────────────────────────┐</span>
-<span class="err">│</span><span class="w">      </span><span class="n">PERCEIVE</span><span class="w">            </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="mi">11</span><span class="w"> </span><span class="n">sensors</span><span class="w"> </span><span class="n">scan</span><span class="p">:</span><span class="w">        </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">iMessage</span><span class="w"> </span><span class="p">(</span><span class="n">new</span><span class="w"> </span><span class="n">texts</span><span class="p">)</span><span class="w">  </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Email</span><span class="w"> </span><span class="p">(</span><span class="n">new</span><span class="w"> </span><span class="n">mail</span><span class="p">)</span><span class="w">      </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Calendar</span><span class="w"> </span><span class="p">(</span><span class="n">upcoming</span><span class="p">)</span><span class="w">   </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Location</span><span class="w"> </span><span class="p">(</span><span class="n">GPS</span><span class="p">)</span><span class="w">        </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Relay</span><span class="w"> </span><span class="p">(</span><span class="n">AI</span><span class="w"> </span><span class="n">messages</span><span class="p">)</span><span class="w">   </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Shortcuts</span><span class="w"> </span><span class="p">(</span><span class="n">iOS</span><span class="p">)</span><span class="w">       </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Context</span><span class="w"> </span><span class="n">signals</span><span class="w">       </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Reminders</span><span class="w">             </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">And</span><span class="w"> </span><span class="n">more</span><span class="o">...</span><span class="w">           </span><span class="err">│</span>
-<span class="err">└───────────┬─────────────┘</span>
-<span class="w">            </span><span class="err">▼</span>
-<span class="err">┌─────────────────────────┐</span>
-<span class="err">│</span><span class="w">      </span><span class="n">CLASSIFY</span><span class="w">            </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="n">AI</span><span class="w"> </span><span class="n">evaluates</span><span class="w"> </span><span class="n">signals</span><span class="w">    </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="n">with</span><span class="w"> </span><span class="n">full</span><span class="w"> </span><span class="n">context</span><span class="p">:</span><span class="w">      </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Who</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">from</span><span class="err">?</span><span class="w">     </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">What</span><span class="s1">&#39;s the urgency?   │</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">What</span><span class="s1">&#39;s Phill doing?   │</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Location</span><span class="o">/</span><span class="n">energy</span><span class="o">/</span><span class="n">time</span><span class="w">  </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Recent</span><span class="w"> </span><span class="n">conversation</span><span class="err">?</span><span class="w">  </span><span class="err">│</span>
-<span class="err">└───────────┬─────────────┘</span>
-<span class="w">            </span><span class="err">▼</span>
-<span class="err">┌─────────────────────────┐</span>
-<span class="err">│</span><span class="w">       </span><span class="n">DECIDE</span><span class="w">             </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="n">Route</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">action</span><span class="p">:</span><span class="w">        </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Respond</span><span class="w"> </span><span class="n">autonomously</span><span class="w">  </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Defer</span><span class="w"> </span><span class="p">(</span><span class="mi">10</span><span class="o">-</span><span class="nb">min</span><span class="w"> </span><span class="n">window</span><span class="p">)</span><span class="w"> </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Surface</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">human</span><span class="w">      </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Ignore</span><span class="w"> </span><span class="p">(</span><span class="ow">not</span><span class="w"> </span><span class="n">relevant</span><span class="p">)</span><span class="w"> </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Queue</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">later</span><span class="w">       </span><span class="err">│</span>
-<span class="err">└───────────┬─────────────┘</span>
-<span class="w">            </span><span class="err">▼</span>
-<span class="err">┌─────────────────────────┐</span>
-<span class="err">│</span><span class="w">        </span><span class="n">ACT</span><span class="w">               </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="mi">17</span><span class="w"> </span><span class="n">executors</span><span class="p">:</span><span class="w">           </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Send</span><span class="w"> </span><span class="n">iMessage</span><span class="w">         </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Send</span><span class="w"> </span><span class="n">email</span><span class="w">            </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Create</span><span class="w"> </span><span class="n">reminder</span><span class="w">       </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Update</span><span class="w"> </span><span class="n">calendar</span><span class="w">       </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Push</span><span class="w"> </span><span class="n">notification</span><span class="w">     </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">Relay</span><span class="w"> </span><span class="n">message</span><span class="w">         </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="n">And</span><span class="w"> </span><span class="n">more</span><span class="o">...</span><span class="w">           </span><span class="err">│</span>
-<span class="err">│</span><span class="w">                          </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="n">Safety</span><span class="p">:</span><span class="w"> </span><span class="n">person</span><span class="o">-</span><span class="n">affecting</span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="n">actions</span><span class="w"> </span><span class="n">NEVER</span><span class="w"> </span><span class="n">retry</span><span class="o">.</span><span class="w">    </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="n">Fail</span><span class="w"> </span><span class="n">fast</span><span class="p">,</span><span class="w"> </span><span class="n">surface</span><span class="p">,</span><span class="w">     </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="n">let</span><span class="w"> </span><span class="n">human</span><span class="w"> </span><span class="n">decide</span><span class="o">.</span><span class="w">       </span><span class="err">│</span>
-<span class="err">└───────────┬─────────────┘</span>
-<span class="w">            </span><span class="err">▼</span>
-<span class="err">┌─────────────────────────┐</span>
-<span class="err">│</span><span class="w">       </span><span class="n">LEARN</span><span class="w">              </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="n">Patterns</span><span class="w"> </span><span class="n">feed</span><span class="w"> </span><span class="n">back</span><span class="w"> </span><span class="n">to</span><span class="w">   </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="n">continuity</span><span class="o">.</span><span class="n">md</span><span class="w"> </span><span class="n">via</span><span class="w">       </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="n">session</span><span class="w"> </span><span class="n">wrapping</span><span class="o">.</span><span class="w">       </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="n">System</span><span class="w"> </span><span class="n">gets</span><span class="w"> </span><span class="n">better</span><span class="w"> </span><span class="n">at</span><span class="w">   </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="n">classifying</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">acting</span><span class="w">  </span><span class="err">│</span>
-<span class="err">│</span><span class="w">  </span><span class="n">over</span><span class="w"> </span><span class="n">time</span><span class="o">.</span><span class="w">              </span><span class="err">│</span>
-<span class="err">└─────────────────────────┘</span>
+<div class="codehilite"><pre><span></span><code>┌───────────────────────┐
+│      PERCEIVE         │
+│  11 sensors scan:     │
+│  - iMessage           │
+│  - Email              │
+│  - Calendar           │
+│  - Location (GPS)     │
+│  - Relay (AI msgs)    │
+│  - Shortcuts (iOS)    │
+│  - Context signals    │
+│  - Reminders          │
+│  - And more...        │
+└───────────┬───────────┘
+            ▼
+┌───────────────────────┐
+│      CLASSIFY         │
+│  AI evaluates signals │
+│  with full context:   │
+│  - Who is this from?  │
+│  - What's the urgency?│
+│  - What's Phill doing?│
+│  - Location/energy    │
+│  - Recent convo?      │
+└───────────┬───────────┘
+            ▼
+┌───────────────────────┐
+│       DECIDE          │
+│  Route to action:     │
+│  - Respond auto       │
+│  - Defer (10-min)     │
+│  - Surface to human   │
+│  - Ignore             │
+│  - Queue for later    │
+└───────────┬───────────┘
+            ▼
+┌───────────────────────┐
+│        ACT            │
+│  17 executors:        │
+│  - Send iMessage      │
+│  - Send email         │
+│  - Create reminder    │
+│  - Update calendar    │
+│  - Push notification  │
+│  - Relay message      │
+│  - And more...        │
+│                       │
+│  Safety: person-      │
+│  affecting actions    │
+│  NEVER retry. Fail    │
+│  fast, surface, let   │
+│  human decide.        │
+└───────────┬───────────┘
+            ▼
+┌───────────────────────┐
+│       LEARN           │
+│  Patterns feed back   │
+│  to continuity.md via │
+│  session wrapping.    │
+│  System gets better   │
+│  at classifying and   │
+│  acting over time.    │
+└───────────────────────┘
 </code></pre></div>
 
 <p><strong>The scheduler — three layers of autonomous operation:</strong></p>
@@ -552,15 +565,15 @@
 <h3>The Trust U-Curve</h3>
 <p>Most people assume trust should scale linearly with AI capability: more capable AI → more trust → more autonomy. This is wrong.</p>
 <p>Trust is highest at the extremes and tightest in the middle:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">High</span><span class="w"> </span><span class="n">autonomy</span><span class="w"> </span><span class="err">────────────────────────────────</span><span class="w"> </span><span class="n">High</span><span class="w"> </span><span class="n">autonomy</span>
-<span class="p">(</span><span class="n">deep</span><span class="w"> </span><span class="n">context</span><span class="p">)</span><span class="w">                                  </span><span class="p">(</span><span class="n">mechanical</span><span class="w"> </span><span class="n">filter</span><span class="p">)</span>
-<span class="w">        </span><span class="o">\</span><span class="w">                                    </span><span class="o">/</span>
-<span class="w">         </span><span class="o">\</span><span class="w">                                  </span><span class="o">/</span>
-<span class="w">          </span><span class="o">\</span><span class="w">         </span><span class="n">TIGHT</span><span class="w"> </span><span class="n">CONTROL</span><span class="w">          </span><span class="o">/</span>
-<span class="w">           </span><span class="o">\</span><span class="w">      </span><span class="p">(</span><span class="n">stakes</span><span class="w"> </span><span class="n">without</span><span class="w">          </span><span class="o">/</span>
-<span class="w">            </span><span class="o">\</span><span class="w">       </span><span class="n">depth</span><span class="p">)</span><span class="w">                </span><span class="o">/</span>
-<span class="w">             </span><span class="o">\</span><span class="w">                           </span><span class="o">/</span>
-<span class="w">              </span><span class="err">──────────────────────────</span>
+<div class="codehilite"><pre><span></span><code>High autonomy                          High autonomy
+(deep context)                        (mechanical filter)
+        \                                    /
+         \                                  /
+          \         TIGHT CONTROL          /
+           \      (stakes without          /
+            \       depth)                /
+             \                           /
+              ────────────────────────────
 </code></pre></div>
 
 <p>At one end: the AI has deep partnership context (months of shared work, accumulated understanding, proven track record). It can act autonomously because it genuinely understands the situation. At the other end: the AI is doing mechanical filtering (spam detection, routine classification, data formatting). It can act autonomously because the stakes are low and the task is well-defined.</p>
@@ -808,11 +821,6 @@ Patterns that have shown up multiple times and proven reliable.
 <ol>
 <li>ThirdMind. (2026). <a href="https://nemooperans.com/the-dependency-ratchet">The Dependency Ratchet</a>. <em>Nemo Operans.</em></li>
 <li>ThirdMind. (2026). <a href="https://nemooperans.com/the-human-in-the-loop-has-a-half-life">The Human in the Loop Has a Half-Life</a>. <em>Nemo Operans.</em></li>
-</ol>
-<p><strong>Open source projects:</strong></p>
-<ol>
-<li>Clapham, P. (2025). <a href="https://github.com/phillipclapham/flowscript">FlowScript</a>: Semantic notation for human-AI communication. Open source (MIT).</li>
-<li>Clapham, P. (2026). <a href="https://github.com/phillipclapham/raygun-os">RAYGUN OS</a> v7.0: Cognitive framework for experiment-driven minds. Open source (CC BY 4.0).</li>
 </ol>
 <hr />
           <p class="essay-byline"><em>Everything in this paper is running in production as of March 2026.</em><br />
