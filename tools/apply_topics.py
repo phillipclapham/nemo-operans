@@ -35,6 +35,9 @@ if len(set(cards)) != len(cards):
 unknown = [slug for slug in cfg['essays'] if slug not in cards]
 if unknown:
     fail(f'topics.json names slugs with no card: {unknown}')
+badid = [t for t in topic_ids if not re.fullmatch(r'[a-z0-9-]+', t)]
+if badid:
+    fail(f'topic ids must be lowercase slugs (they become URL hashes): {badid}')
 bad = [(slug, t) for slug, ts in cfg['essays'].items() for t in ts if t not in topic_ids]
 if bad:
     fail(f'unknown topic ids: {bad}')
@@ -52,13 +55,17 @@ noted = {c for c in cards if 'class="correction-note"' in (ROOT / f'{c}.html').r
 
 def card_tag(m):
     slug, tag = m.group(1), m.group(0)
-    tag = re.sub(r'\s+data-topics="[^"]*"', '', tag)
-    tag = re.sub(r'\s+data-noted(="[^"]*")?(?=[\s>])', '', tag)
+    owned = r'\s+data-(?:topics|noted)(?:\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+))?(?=[\s>])'
+    tag = re.sub(owned, '', tag, flags=re.I)
     extra = f' data-topics="{" ".join(cfg["essays"][slug])}"' + (' data-noted' if slug in noted else '')
     return tag[:-1] + extra + '>'
 
 
 s = CARD.sub(card_tag, s)
+for slug in cards:
+    t = re.search(r'<a href="/' + re.escape(slug) + r'" class="essay-card"[^>]*>', s).group(0)
+    if len(re.findall(r'data-topics', t, re.I)) != 1 or len(re.findall(r'data-noted', t, re.I)) != (slug in noted):
+        fail(f'card attributes did not normalize: {t}')
 
 # featured card, built from the listed card's own fields, bounded to that one card element
 card_m = re.search(r'<a href="/' + re.escape(cfg['featured']) + r'" class="essay-card"[^>]*>(.*?)</a>', s, re.S)

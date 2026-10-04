@@ -388,6 +388,10 @@ main {
   border-color: #7A5F24;
 }
 
+[data-theme="light"] .featured-card:hover {
+  border-color: var(--accent-hover);
+}
+
 [data-theme="light"] .topic-chip:focus-visible {
   outline-color: #7A5F24;
 }

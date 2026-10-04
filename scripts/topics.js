@@ -22,10 +22,9 @@
     if (count) count.textContent = n;
   });
 
-  function fromHash() {
-    let h = location.hash.slice(1);
-    try { h = decodeURIComponent(h); } catch (e) { /* malformed escape: use as is */ }
-    return h.toLowerCase();
+  function rawHash() {
+    const h = location.hash.slice(1);
+    try { return decodeURIComponent(h); } catch (e) { return h; }
   }
 
   function apply(topic) {
@@ -49,18 +48,21 @@
     apply(chip.dataset.topic);
   });
 
-  // Only topic hashes drive the filter; any other in-page anchor leaves it alone.
-  window.addEventListener('hashchange', () => {
-    const t = fromHash();
-    if (known.has(t)) apply(t);
-  });
+  // One path for page load and hash changes: empty = All, a topic = filter, a real in-page
+  // anchor leaves the filter alone, anything else falls back to All and clears the hash.
+  function sync() {
+    const raw = rawHash();
+    const topic = raw.toLowerCase();
+    if (raw === '') return apply('');
+    if (known.has(topic)) return apply(topic);
+    if (document.getElementById(raw)) return;
+    setHash('');
+    apply('');
+  }
+
+  window.addEventListener('hashchange', sync);
 
   nav.hidden = false;
-  const initial = fromHash();
-  if (location.hash && !known.has(initial)) {
-    if (!document.getElementById(location.hash.slice(1))) setHash('');
-    apply('');
-  } else {
-    apply(initial);
-  }
+  apply('');
+  sync();
 })();
