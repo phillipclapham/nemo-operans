@@ -6,12 +6,13 @@ and the "Start here" featured card. Idempotent; run after every publish.
 - Validates everything BEFORE writing: unknown slugs or topic ids, a card with no topics (a new
   essay published without a topics.json entry), a missing essay page, broken block markers.
   Any failure exits 1 and writes nothing.
-- Only the tool-owned attributes (data-topics, data-noted) are rewritten on a card; anything else
-  on the card's opening tag is left alone.
+- Only the tool-owned attributes (data-topics, data-noted) are rewritten on a card: the opening tag
+  is parsed (html.parser), those two are dropped by exact name, and the tag is rebuilt double-quoted.
 - Chip counts are written for no-JS readers; scripts/topics.js recounts from the live list.
 Usage: python3 tools/apply_topics.py [--check]   (--check: validate and report, write nothing)
 """
 import html, json, pathlib, re, sys
+from html.parser import HTMLParser
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 INDEX = ROOT / 'index.html'
@@ -35,6 +36,8 @@ if len(set(cards)) != len(cards):
 unknown = [slug for slug in cfg['essays'] if slug not in cards]
 if unknown:
     fail(f'topics.json names slugs with no card: {unknown}')
+if len(set(topic_ids)) != len(topic_ids):
+    fail(f'duplicate topic ids: {topic_ids}')
 badid = [t for t in topic_ids if not re.fullmatch(r'[a-z0-9-]+', t)]
 if badid:
     fail(f'topic ids must be lowercase slugs (they become URL hashes): {badid}')
@@ -53,18 +56,34 @@ if cfg['featured'] not in cards:
 noted = {c for c in cards if 'class="correction-note"' in (ROOT / f'{c}.html').read_text()}
 
 
+class _TagAttrs(HTMLParser):
+    """Parse one start tag into (name, value) pairs; quoted values are never mistaken for attributes."""
+    def handle_starttag(self, tag, attrs):
+        self.attrs = attrs
+
+
+OWNED = {'data-topics', 'data-noted'}
+
+
 def card_tag(m):
-    slug, tag = m.group(1), m.group(0)
-    owned = r'\s+data-(?:topics|noted)(?:\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+))?(?=[\s>])'
-    tag = re.sub(owned, '', tag, flags=re.I)
-    extra = f' data-topics="{" ".join(cfg["essays"][slug])}"' + (' data-noted' if slug in noted else '')
-    return tag[:-1] + extra + '>'
+    slug = m.group(1)
+    p = _TagAttrs()
+    p.feed(m.group(0))
+    attrs = [(k, v) for k, v in p.attrs if k not in OWNED]   # html.parser lowercases names
+    attrs.append(('data-topics', ' '.join(cfg['essays'][slug])))
+    if slug in noted:
+        attrs.append(('data-noted', None))
+    parts = [k if v is None else f'{k}="{html.escape(v, quote=True)}"' for k, v in attrs]
+    return '<a ' + ' '.join(parts) + '>'
 
 
 s = CARD.sub(card_tag, s)
 for slug in cards:
     t = re.search(r'<a href="/' + re.escape(slug) + r'" class="essay-card"[^>]*>', s).group(0)
-    if len(re.findall(r'data-topics', t, re.I)) != 1 or len(re.findall(r'data-noted', t, re.I)) != (slug in noted):
+    p = _TagAttrs()
+    p.feed(t)
+    names = [k for k, _ in p.attrs]
+    if names.count('data-topics') != 1 or names.count('data-noted') != (slug in noted):
         fail(f'card attributes did not normalize: {t}')
 
 # featured card, built from the listed card's own fields, bounded to that one card element
