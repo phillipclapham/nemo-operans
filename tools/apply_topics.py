@@ -37,6 +37,9 @@ if unknown:
     fail(f'topics.json names slugs with no card: {unknown}')
 if len(set(topic_ids)) != len(topic_ids):
     fail(f'duplicate topic ids: {topic_ids}')
+dupe = [slug for slug, ts in cfg['essays'].items() if len(set(ts)) != len(ts)]
+if dupe:
+    fail(f'repeated topic ids within an essay: {dupe}')
 badid = [t for t in topic_ids if not re.fullmatch(r'[a-z0-9-]+', t)]
 if badid:
     fail(f'topic ids must be lowercase slugs (they become URL hashes): {badid}')
@@ -58,9 +61,12 @@ noted = {c for c in cards if 'class="correction-note"' in (ROOT / f'{c}.html').r
 # A card's opening tag must be the shape publish_essay.py writes, optionally with this tool's own
 # two attributes. Anything else is refused by slug rather than rewritten: bounding the input
 # beats hand-parsing arbitrary HTML (L3 r2-r4 found an edge per round in every rewrite approach).
-CANON = re.compile(r'<a href="/([a-z0-9-]+)" class="essay-card"( data-tags="[a-z]+")?'
+CANON = re.compile(r'<a href="/([a-z0-9-]+)" class="essay-card"( data-tags="[a-z]+")'
                    r'(?: data-topics="[a-z0-9 -]*")?(?: data-noted)?>')
 odd = [m.group(0) for m in CARD.finditer(s) if not CANON.fullmatch(m.group(0))]
+# any <a> carrying the essay-card class that CARD did not see (other attribute order, quoting) is odd too
+anchors = re.findall(r'<a\b[^>]*\bessay-card\b[^>]*>', s)
+odd += [t for t in anchors if not CARD.match(t)]
 if odd:
     fail('cards not in the shape publish_essay.py writes (fix by hand, then re-run): ' + ' | '.join(odd))
 
