@@ -6,13 +6,12 @@ and the "Start here" featured card. Idempotent; run after every publish.
 - Validates everything BEFORE writing: unknown slugs or topic ids, a card with no topics (a new
   essay published without a topics.json entry), a missing essay page, broken block markers.
   Any failure exits 1 and writes nothing.
-- Only the tool-owned attributes (data-topics, data-noted) are rewritten on a card: the opening tag
-  is parsed (html.parser), those two are dropped by exact name, and the tag is rebuilt double-quoted.
+- A card's opening tag must be the shape publish_essay.py writes (href, class, data-tags, plus
+  this tool's data-topics/data-noted). Any other shape is refused by slug, never rewritten.
 - Chip counts are written for no-JS readers; scripts/topics.js recounts from the live list.
 Usage: python3 tools/apply_topics.py [--check]   (--check: validate and report, write nothing)
 """
 import html, json, pathlib, re, sys
-from html.parser import HTMLParser
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 INDEX = ROOT / 'index.html'
@@ -56,36 +55,24 @@ if cfg['featured'] not in cards:
 noted = {c for c in cards if 'class="correction-note"' in (ROOT / f'{c}.html').read_text()}
 
 
-class _TagAttrs(HTMLParser):
-    """Parse one start tag into (name, value) pairs; quoted values are never mistaken for attributes."""
-    def handle_starttag(self, tag, attrs):
-        self.attrs = attrs
-
-
-OWNED = {'data-topics', 'data-noted'}
+# A card's opening tag must be the shape publish_essay.py writes, optionally with this tool's own
+# two attributes. Anything else is refused by slug rather than rewritten: bounding the input
+# beats hand-parsing arbitrary HTML (L3 r2-r4 found an edge per round in every rewrite approach).
+CANON = re.compile(r'<a href="/([a-z0-9-]+)" class="essay-card"( data-tags="[a-z]+")?'
+                   r'(?: data-topics="[a-z0-9 -]*")?(?: data-noted)?>')
+odd = [m.group(0) for m in CARD.finditer(s) if not CANON.fullmatch(m.group(0))]
+if odd:
+    fail('cards not in the shape publish_essay.py writes (fix by hand, then re-run): ' + ' | '.join(odd))
 
 
 def card_tag(m):
-    slug = m.group(1)
-    p = _TagAttrs()
-    p.feed(m.group(0))
-    attrs = [(k, v) for k, v in p.attrs if k not in OWNED]   # html.parser lowercases names
-    attrs.append(('data-topics', ' '.join(cfg['essays'][slug])))
-    if slug in noted:
-        attrs.append(('data-noted', None))
-    parts = [k if v is None else f'{k}="{html.escape(v, quote=True)}"' for k, v in attrs]
-    return '<a ' + ' '.join(parts) + '>'
+    c = CANON.fullmatch(m.group(0))
+    slug, tags = c.group(1), c.group(2) or ''
+    noted_attr = ' data-noted' if slug in noted else ''
+    return f'<a href="/{slug}" class="essay-card"{tags} data-topics="{" ".join(cfg["essays"][slug])}"{noted_attr}>'
 
 
 s = CARD.sub(card_tag, s)
-for slug in cards:
-    t = re.search(r'<a href="/' + re.escape(slug) + r'" class="essay-card"[^>]*>', s).group(0)
-    p = _TagAttrs()
-    p.feed(t)
-    names = [k for k, _ in p.attrs]
-    if names.count('data-topics') != 1 or names.count('data-noted') != (slug in noted):
-        fail(f'card attributes did not normalize: {t}')
-
 # featured card, built from the listed card's own fields, bounded to that one card element
 card_m = re.search(r'<a href="/' + re.escape(cfg['featured']) + r'" class="essay-card"[^>]*>(.*?)</a>', s, re.S)
 fields = {}
