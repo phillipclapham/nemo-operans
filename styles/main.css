@@ -366,6 +366,32 @@ main {
   color: var(--accent);
 }
 
+.topic-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* The light-mode --accent is ~2.7:1 on white: fine for borders, too faint for small text and focus. */
+[data-theme="light"] .featured-label,
+[data-theme="light"] .topic-chip[aria-pressed="true"],
+[data-theme="light"] .topic-chip[aria-pressed="true"] .topic-count,
+[data-theme="light"] .essay-card[data-noted] .essay-card-meta::after {
+  color: #7A5F24;
+}
+
+[data-theme="light"] .topic-chip[aria-pressed="true"],
+[data-theme="light"] .featured-card {
+  border-color: #7A5F24;
+}
+
+[data-theme="light"] .topic-chip:focus-visible {
+  outline-color: #7A5F24;
+}
+
 @media (max-width: 480px) {
   .featured-card {
     padding: var(--space-6);
