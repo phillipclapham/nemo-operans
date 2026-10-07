@@ -3,6 +3,12 @@
 Generate sitemap.xml from what is actually on disk.
 
 Run from the repo root:  python3 tools/generate_sitemap.py
+`--check` writes nothing and exits 1 if sitemap.xml's URLs, order or priorities differ
+from what would be generated, if a <lastmod> element is missing, or if one is more than
+a day OLDER than the page's last change. Exact lastmod equality is deliberately not
+required: generation stamps a dirty page with today's date and a clean checkout derives
+it from the commit's author date, so the two legitimately differ by a day or so (late
+commit, rebase). A squash-merge days after generation would trip it; regenerate then.
 
 The hand-maintained sitemap drifted two months and six essays out of date, and
 its homepage <lastmod> ended up OLDER than the homepage's real last change --
@@ -66,7 +72,31 @@ def git_last_modified(repo, filename):
     return out or today()
 
 
-def page_facts(repo, path):
+def ld_nodes(data):
+    """Yield every dict node anywhere in a parsed JSON-LD value.
+
+    JSON-LD is legally a single object, an array of objects, an object
+    carrying an @graph array, or nodes nested under properties such as mainEntity. Treating it as always-a-dict crashed the whole
+    sitemap run on the first page that used the other two shapes.
+    """
+    if isinstance(data, dict):
+        yield data
+        for value in data.values():
+            yield from ld_nodes(value)
+    elif isinstance(data, list):
+        for item in data:
+            yield from ld_nodes(item)
+
+
+def date_value(value):
+    """datePublished as a string, or None. JSON-LD also allows {"@value": ...};
+    anything else is treated as undated so the sort key is always a string."""
+    if isinstance(value, dict):
+        value = value.get("@value")
+    return value if isinstance(value, str) and value else None
+
+
+def page_facts(repo, path, warnings):
     name = os.path.basename(path)
     source = open(path, encoding="utf-8").read()
 
@@ -85,10 +115,13 @@ def page_facts(repo, path):
         except json.JSONDecodeError:
             # A page whose JSON-LD does not parse still belongs in the sitemap;
             # it just cannot contribute an ordering date.
-            print(f"  warning: {name} has unparseable JSON-LD", file=sys.stderr)
+            warnings.append(f"{name} has unparseable JSON-LD")
             continue
-        if data.get("datePublished"):
-            published = data["datePublished"]
+        published = next(
+            (d for d in (date_value(n.get("datePublished")) for n in ld_nodes(data)) if d),
+            None,
+        )
+        if published:
             break
 
     return {
@@ -102,14 +135,25 @@ def page_facts(repo, path):
     }
 
 
+def strip_lastmod(xml):
+    return re.sub(r"<lastmod>[^<]*</lastmod>", "<lastmod/>", xml)
+
+
 def main():
-    repo = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else os.getcwd()
+    args = [a for a in sys.argv[1:] if a != "--check"]
+    unknown = [a for a in args if a.startswith("--")]
+    if unknown:
+        print(f"unknown option: {unknown[0]}", file=sys.stderr)
+        return 2
+    check = len(args) != len(sys.argv) - 1
+    repo = os.path.abspath(args[0]) if args else os.getcwd()
 
     pages = []
     problems = []
+    warnings = []
     for path in sorted(glob.glob(os.path.join(repo, "*.html"))):
         name = os.path.basename(path)
-        facts = page_facts(repo, path)
+        facts = page_facts(repo, path, warnings)
         if facts is None:
             # og:url is the URL authority, so a page without one cannot be
             # placed. Silently dropping it would quietly shrink the sitemap --
@@ -130,6 +174,9 @@ def main():
                 f"— {page['url']}"
             )
         seen[page["url"]] = page["name"]
+
+    if not any(p["name"] == "index.html" for p in pages):
+        problems.append(f"no index.html found in {repo}: wrong directory?")
 
     if problems:
         print("REFUSING to write sitemap.xml:", file=sys.stderr)
@@ -156,12 +203,49 @@ def main():
         lines.append("  </url>")
     lines.append("</urlset>")
 
+    rendered = "\n".join(lines) + "\n"
     out = os.path.join(repo, "sitemap.xml")
+
+    if check:
+        for warning in warnings:
+            print(f"WARNING: {warning}")
+        current = open(out, encoding="utf-8").read() if os.path.exists(out) else ""
+        if strip_lastmod(current) != strip_lastmod(rendered):
+            print("sitemap.xml is out of date (URLs, order or priority): run "
+                  "python3 tools/generate_sitemap.py and commit the result",
+                  file=sys.stderr)
+            return 1
+        # Exact lastmod equality is not checkable (see the docstring), but
+        # "older than the page's real change" is the defect this tool exists
+        # to kill, so a stored date more than a day behind the derived one fails.
+        stored = re.findall(r"<lastmod>([^<]*)</lastmod>", current)
+        derived = re.findall(r"<lastmod>([^<]*)</lastmod>", rendered)
+        if len(stored) != len(derived):
+            print("sitemap.xml has missing or extra <lastmod> elements", file=sys.stderr)
+            return 1
+        for have, want in zip(stored, derived):
+            try:
+                behind = (datetime.date.fromisoformat(want)
+                          - datetime.date.fromisoformat(have)).days
+            except ValueError:
+                behind = 99
+            if behind > 1:
+                print(f"sitemap.xml <lastmod> {have} is older than the page's "
+                      f"last change {want}: regenerate", file=sys.stderr)
+                return 1
+        print("sitemap.xml is current")
+        return 0
+
     with open(out, "w", encoding="utf-8") as handle:
-        handle.write("\n".join(lines) + "\n")
+        handle.write(rendered)
 
     print(f"Wrote {out} — {len(pages)} URLs "
-          f"(1 home, {len(essays)} essays, {len(about)} about)")
+          f"({len(home)} home, {len(essays)} essays, {len(about)} about)")
+    # Warnings go to STDOUT on purpose: publish_essay.py logs stdout on success
+    # and drops stderr unless the run fails, so a stderr warning never reached
+    # anyone.
+    for warning in warnings:
+        print(f"WARNING: {warning}")
     return 0
 
 

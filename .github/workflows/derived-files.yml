@@ -1,0 +1,20 @@
+# sitemap.xml and the homepage topic counts are derived. Hand-editing a page
+# without regenerating them is the drift that cost the sitemap two months once;
+# this fails the push instead of relying on whoever edits remembering.
+name: derived files current
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # lastmod comes from git history
+      - run: python3 tools/generate_sitemap.py --check
+      - run: python3 tools/apply_topics.py --check
+      - run: python3 -m unittest discover -s tools

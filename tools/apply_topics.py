@@ -132,6 +132,9 @@ if 'scripts/topics.js' not in s:
                   '<script src="scripts/theme.js"></script>\n    <script src="scripts/topics.js" defer></script>')
 
 print(f'{len(cards)} cards · counts {counts} · noted {len(noted)}')
-if '--check' not in sys.argv:
+if '--check' in sys.argv:
+    if s != INDEX.read_text():
+        fail('index.html is out of date: run python3 tools/apply_topics.py and commit the result')
+else:
     INDEX.write_text(s)
     print('wrote index.html')
