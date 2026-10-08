@@ -76,8 +76,9 @@ def ld_nodes(data):
     """Yield every dict node anywhere in a parsed JSON-LD value.
 
     JSON-LD is legally a single object, an array of objects, an object
-    carrying an @graph array, or nodes nested under properties such as mainEntity. Treating it as always-a-dict crashed the whole
-    sitemap run on the first page that used the other two shapes.
+    carrying an @graph array, or nodes nested under properties such as
+    mainEntity. Treating it as always-a-dict crashed the whole run on an
+    array and silently dropped the ordering date for @graph and nested nodes.
     """
     if isinstance(data, dict):
         yield data
@@ -211,7 +212,7 @@ def main():
             print(f"WARNING: {warning}")
         current = open(out, encoding="utf-8").read() if os.path.exists(out) else ""
         if strip_lastmod(current) != strip_lastmod(rendered):
-            print("sitemap.xml is out of date (URLs, order or priority): run "
+            print("sitemap.xml is out of date (URLs, order, priority or a missing <lastmod>): run "
                   "python3 tools/generate_sitemap.py and commit the result",
                   file=sys.stderr)
             return 1

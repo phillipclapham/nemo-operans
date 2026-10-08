@@ -1,6 +1,7 @@
 # sitemap.xml and the homepage topic counts are derived. Hand-editing a page
 # without regenerating them is the drift that cost the sitemap two months once;
-# this fails the push instead of relying on whoever edits remembering.
+# this flags the commit red after it lands. It does not block the push or the
+# deploy: main has no branch protection, so someone has to read the red X.
 name: derived files current
 on:
   push:

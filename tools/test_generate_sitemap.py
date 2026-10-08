@@ -76,7 +76,9 @@ class SitemapTests(unittest.TestCase):
             good = open(sm).read()
             import re
             open(sm, "w").write(re.sub(r"\s*<lastmod>[^<]*</lastmod>", "", good))
-            self.assertEqual(run("--check").returncode, 1)
+            r = run("--check")
+            self.assertEqual(r.returncode, 1)
+            self.assertIn("missing <lastmod>", r.stderr)
             open(sm, "w").write(re.sub(r"<lastmod>[^<]*</lastmod>", "<lastmod>2020-01-01</lastmod>", good))
             self.assertEqual(run("--check").returncode, 1)
             self.assertEqual(run("--chek").returncode, 2)
