@@ -9,7 +9,8 @@ and the "Start here" featured card. Idempotent; run after every publish.
 - A card's opening tag must be the shape publish_essay.py writes (href, class, data-tags, plus
   this tool's data-topics/data-noted). Any other shape is refused by slug, never rewritten.
 - Chip counts are written for no-JS readers; scripts/topics.js recounts from the live list.
-Usage: python3 tools/apply_topics.py [--check]   (--check: validate and report, write nothing)
+Usage: python3 tools/apply_topics.py --check | --write   (--check: validate and report, write nothing;
+--write: validate, then write index.html. Any other argument, or none, is refused with exit 2.)
 """
 import html, json, pathlib, re, sys
 
@@ -21,6 +22,10 @@ def fail(msg):
     print(f'apply_topics: {msg}', file=sys.stderr)
     sys.exit(1)
 
+
+if sys.argv[1:] not in (['--check'], ['--write']):
+    print('usage: python3 tools/apply_topics.py --check | --write', file=sys.stderr)
+    sys.exit(2)
 
 cfg = json.loads((ROOT / 'tools' / 'topics.json').read_text())
 topic_ids = [t['id'] for t in cfg['topics']]
@@ -132,9 +137,9 @@ if 'scripts/topics.js' not in s:
                   '<script src="scripts/theme.js"></script>\n    <script src="scripts/topics.js" defer></script>')
 
 print(f'{len(cards)} cards · counts {counts} · noted {len(noted)}')
-if '--check' in sys.argv:
+if sys.argv[1] == '--check':
     if s != INDEX.read_text():
-        fail('index.html is out of date: run python3 tools/apply_topics.py and commit the result')
+        fail('index.html is out of date: run python3 tools/apply_topics.py --write and commit the result')
 else:
     INDEX.write_text(s)
     print('wrote index.html')
