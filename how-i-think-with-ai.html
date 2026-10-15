@@ -842,8 +842,11 @@ workspace</em> — an access-control question. The tamper-evident
 hash-chained audit trail described in the anneal-memory library answers
 <em>which evidence chains support which graduated pattern, immutably
 ordered</em> — a cognitive-provenance question, with SHA-256 chaining,
-content-free deletion records, and wrap-token reconstruction
-enabling per-pattern lineage tracing. Different questions. Different
+deletion records that carry a hash of the content rather than the
+content itself, and wrap-token reconstruction
+enabling per-pattern lineage tracing (from the 1.0.0 release
+candidates that hash is keyed with a per-store salt; earlier releases
+hashed it unkeyed). Different questions. Different
 failure-mode coverage. The operator-side and joint failure modes
 catalogued in §1 — confabulation through continuity, sycophancy
 amplification, false-positive multi-agent ratification — are detectable
