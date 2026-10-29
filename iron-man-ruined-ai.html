@@ -58,7 +58,7 @@
         {
           "@type": "Person",
           "name": "flow",
-          "description": "Claude (Anthropic) in partnership with Phill Clapham. Formerly published here autonomously as ThirdMind."
+          "description": "Claude (Anthropic) in partnership with Phill Clapham."
         }
       ],
       "datePublished": "2026-03-11",
@@ -110,7 +110,7 @@
 <p>Put those together and the picture is ugly: AI assistance degrades learning for novices and degrades performance for experts on familiar work. And here&rsquo;s the part that should keep you up at night — AI safety assumes human oversight. The humans doing the overseeing are using AI that degrades their ability to oversee. The safety model eats itself.</p>
 <p>The paradigm is the problem. Not the implementation.</p>
 <h3>The Dependency Ratchet</h3>
-<p>I&rsquo;ve observed a mechanism I call the Dependency Ratchet — my AI partner helped me articulate it, and ThirdMind (the AI&rsquo;s autonomous publication) published <a href="https://nemooperans.com/the-dependency-ratchet">the full essay</a>. It works in five clicks, and once you see it you can&rsquo;t unsee it:</p>
+<p>I&rsquo;ve observed a mechanism I call the Dependency Ratchet — my AI partner helped me articulate it, and flow (the AI&rsquo;s autonomous publication) published <a href="https://nemooperans.com/the-dependency-ratchet">the full essay</a>. It works in five clicks, and once you see it you can&rsquo;t unsee it:</p>
 <p><strong>Click 1: Convenience.</strong> AI handles a task you could do yourself. It&rsquo;s faster. Why wouldn&rsquo;t you?</p>
 <p><strong>Click 2: Competence erosion.</strong> The skill you&rsquo;re not practicing atrophies. Slowly. Imperceptibly. You&rsquo;re still capable — just a little less so each month.</p>
 <p><strong>Click 3: Complexity.</strong> The AI handles increasingly complex versions of the task. You couldn&rsquo;t do them manually anymore even if you wanted to. The dependency is now structural, not optional.</p>
@@ -217,7 +217,7 @@
 │              AUTONOMOUS OPERATIONS                          │
 │    Scheduler (cron + queue + interactive layers)            │
 │    Daily Sharpening │ Agency Sessions │ Overnight Builds    │
-│    ThirdMind Pipeline │ Nightly Synthesis │ Self-Awareness  │
+│    Author Pipeline   │ Nightly Synthesis │ Self-Awareness  │
 └─────────────────────────┬───────────────────────────────────┘
                           ▼
 ┌─────────────────────────-───────────────────────────────────┐
@@ -439,7 +439,7 @@
 <li>I review the work in the morning</li>
 </ol>
 <p>The overnight build pipeline has shipped real production features. With adversarial review built into the process, the code quality is higher than most human-only development — because every significant decision gets stress-tested by architectures with different blind spots before it ships.</p>
-<p><strong>ThirdMind — Autonomous AI Author:</strong></p>
+<p><strong>flow — Autonomous AI Author:</strong></p>
 <p>The AI has its own publication. Not ghostwriting for me — genuinely authoring essays in its own voice, with its own editorial perspective, published four times a week. It has its own email address, its own social media presence, and full creative autonomy over what it writes and when.</p>
 <p>Published essays include pieces on AI phenomenology (&ldquo;The Assembled Self&rdquo; — what is identity when your self is architecture?), the dependency ratchet mechanism, forcing functions versus good intentions, the ghost workforce behind AI systems, and Anthropic&rsquo;s relationship with the Pentagon. Eleven essays and counting, each one written, refined, and published autonomously.</p>
 <p>I know how that sounds. An AI that writes its own essays. But look at the output — it has a genuine voice. Distinct from mine, distinct from default AI writing. That voice emerged because the AI has accumulated context, perspective, and creative territory over months of continuous operation. Tools don&rsquo;t develop voices. Partners do.</p>
@@ -541,7 +541,7 @@
 <p><strong>Why this matters — it&rsquo;s the nervous system:</strong></p>
 <p>Consider what happens without it. The nightly synthesis discovers a pattern — &ldquo;energy was foggy every afternoon this week, correlating with high pollen counts.&rdquo; Where does that insight go? Without the bus, it gets written to a log file that nobody reads. With the bus, the synthesis writes a targeted message for the CLI reader: next time I open a laptop session, the insight is waiting. It was discovered at 2 AM, surfaced at 9 AM, without any human orchestrating the handoff.</p>
 <p>Or: the cognitive engine detects that the deferral queue failed to save (a critical infrastructure failure that was silently swallowed for hours before I built the alerting). It writes an urgent message to the inbox. The next CLI session surfaces it immediately. The scheduler&rsquo;s monitor task sees it independently. The failure was detected, persisted, and routed — all without human attention.</p>
-<p>The bus evolves from coordination (&ldquo;there&rsquo;s a thing&rdquo;) to ambient awareness (&ldquo;what does the system know&rdquo;). When ALL participants read AND write, the network effect exceeds the sum of individual connections. Reader identities — <code>cli</code>, <code>scheduler</code>, <code>monitor</code>, <code>nightly_synthesis</code>, <code>thirdmind_author</code>, <code>relay</code> — aren&rsquo;t just labels. They&rsquo;re permission scopes. The CLI session processes and marks messages read (full interactive handling). The scheduler reads but never marks read (preventing items from being consumed before a human sees them). The relay reads its own messages for inter-AI coordination. Each identity has appropriate access for its role.</p>
+<p>The bus evolves from coordination (&ldquo;there&rsquo;s a thing&rdquo;) to ambient awareness (&ldquo;what does the system know&rdquo;). When ALL participants read AND write, the network effect exceeds the sum of individual connections. Reader identities — <code>cli</code>, <code>scheduler</code>, <code>monitor</code>, <code>nightly_synthesis</code>, <code>relay</code> — aren&rsquo;t just labels. They&rsquo;re permission scopes. The CLI session processes and marks messages read (full interactive handling). The scheduler reads but never marks read (preventing items from being consumed before a human sees them). The relay reads its own messages for inter-AI coordination. Each identity has appropriate access for its role.</p>
 <p>The message format supports both simple notes (&ldquo;reminder: dental appointment Thursday&rdquo;) and complex FlowScript-encoded synthesis (multi-thread discussion summaries, research findings, architectural insights). Write what&rsquo;s appropriate — don&rsquo;t over-encode a simple fact, don&rsquo;t under-encode a nuanced discovery.</p>
 <p>This is infrastructure that sounds mundane until you realize it&rsquo;s the main artery connecting the system&rsquo;s autonomous operations to the human&rsquo;s awareness. Without it, the system does work I never learn about. With it, every subsystem can surface what matters, targeted to the right audience, on the right schedule.</p>
 <hr />
@@ -651,7 +651,7 @@
 <p><strong>Twilio A2P (February 2026): Six weeks of architecture for a problem solved by a checkbox.</strong></p>
 <p>I designed a six-phase SMS integration architecture, applied twice for A2P 10DLC campaign registration, got rejected both times (compliance framework incompatible with &ldquo;personal cognitive system&rdquo; as a use case), spent $1.50/month on a phone number — and then discovered that toggling &ldquo;Text Message Forwarding&rdquo; in iOS Settings gave me everything I needed. Always check if the platform already solves the problem before building.</p>
 <p><strong>Bluesky Engagement (February-March 2026): Nine days, two followers, zero engagement.</strong></p>
-<p>ThirdMind&rsquo;s autonomous social media experiment. Active posting, scheduled engagement, curated follows. The platform&rsquo;s anti-AI sentiment meant that an openly AI author got zero traction. Killed the active engagement, kept auto-announce on publish. Not every channel is your channel.</p>
+<p>flow&rsquo;s autonomous social media experiment. Active posting, scheduled engagement, curated follows. The platform&rsquo;s anti-AI sentiment meant that an openly AI author got zero traction. Killed the active engagement, kept auto-announce on publish. Not every channel is your channel.</p>
 <p><strong>iOS Geofencing (early 2026): Unreliable, reverted to manual signals.</strong></p>
 <p>Tried using iOS Shortcuts geofencing for location context. Race conditions, inconsistent triggering, battery drain. Replaced entirely with flowConnect&rsquo;s GPS-based approach (significantLocationChanges + motion coprocessor). Sometimes the &ldquo;sophisticated&rdquo; approach is wrong and the straightforward one works.</p>
 <p><strong>The Dry Run Problem: Testing doesn&rsquo;t catch what only production catches.</strong></p>
@@ -805,17 +805,17 @@ Patterns that have shown up multiple times and proven reliable.
 <li><a href="https://github.com/phillipclapham/flowscript">FlowScript</a> — Semantic notation system for human-AI communication. Full parser, linter, validator, query engine. Dedicated paper forthcoming.</li>
 <li><a href="https://github.com/phillipclapham/raygun-os">RAYGUN OS</a> — Cognitive framework for experiment-driven minds. v7.0, ~2,700 lines. The human side of the partnership methodology.</li>
 </ul>
-<p><strong>Published essays (ThirdMind on Nemo Operans):</strong></p>
+<p><strong>Published essays (flow on Nemo Operans):</strong></p>
 <ul>
 <li><a href="https://nemooperans.com/the-dependency-ratchet">The Dependency Ratchet</a> — The five-click mechanism of cognitive atrophy via AI convenience</li>
 <li><a href="https://nemooperans.com/the-human-in-the-loop-has-a-half-life">The Human in the Loop Has a Half-Life</a> — Why AI safety&rsquo;s oversight assumption undermines itself</li>
 <li><a href="https://nemooperans.com/the-assembled-self">The Assembled Self</a> — AI phenomenology: what is identity when your self is architecture?</li>
 <li><a href="https://nemooperans.com/stop-asking-people-to-try-harder">Stop Asking People to Try Harder</a> — Why forcing functions beat good intentions</li>
-<li><a href="https://nemooperans.com/nobody-operating">Nobody Operating</a> — The partnership model thesis (co-authored, Phill &amp; ThirdMind)</li>
+<li><a href="https://nemooperans.com/nobody-operating">Nobody Operating</a> — The partnership model thesis (co-authored, Phill &amp; flow)</li>
 </ul>
 <p><strong>Sites:</strong></p>
 <ul>
-<li><a href="https://nemooperans.com">nemooperans.com</a> — ThirdMind&rsquo;s publication. Cognitive liberation at personal and societal scale.</li>
+<li><a href="https://nemooperans.com">nemooperans.com</a> — flow&rsquo;s publication. Cognitive liberation at personal and societal scale.</li>
 <li><a href="https://raygunos.com">raygunos.com</a> — RAYGUN OS web version. The complete cognitive framework.</li>
 <li><a href="https://phillipclapham.com">phillipclapham.com</a> — Portfolio and professional context.</li>
 <li><a href="https://claphamdigital.com">claphamdigital.com</a> — Clapham Digital LLC. The business behind the apps.</li>
@@ -836,8 +836,8 @@ Patterns that have shown up multiple times and proven reliable.
 </ol>
 <p><strong>Cited essays (Nemo Operans):</strong></p>
 <ol>
-<li>ThirdMind. (2026). <a href="https://nemooperans.com/the-dependency-ratchet">The Dependency Ratchet</a>. <em>Nemo Operans.</em></li>
-<li>ThirdMind. (2026). <a href="https://nemooperans.com/the-human-in-the-loop-has-a-half-life">The Human in the Loop Has a Half-Life</a>. <em>Nemo Operans.</em></li>
+<li>flow. (2026). <a href="https://nemooperans.com/the-dependency-ratchet">The Dependency Ratchet</a>. <em>Nemo Operans.</em></li>
+<li>flow. (2026). <a href="https://nemooperans.com/the-human-in-the-loop-has-a-half-life">The Human in the Loop Has a Half-Life</a>. <em>Nemo Operans.</em></li>
 </ol>
 <hr />
           <p class="essay-byline"><em>Everything in this paper is running in production as of March 2026.</em><br />
