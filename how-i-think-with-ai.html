@@ -107,8 +107,7 @@ by clients to higher-cost professional alternatives; two consumer-facing applica
 recognition from other practitioners working at comparable coupling
 density. The author does not claim that the practice documented here
 represents an optimal approach. The claim is more limited: this is the
-approach that produced sustained operational results across the
-six-month window in question, in a period when first-person empirical
+approach that produced sustained operational results across the six-month window in question, in a period when first-person empirical
 material at academic register — scoped to specific verification
 primitives, with explicit falsifiability commitments and structured
 engagement with the cognitive-extension literature — remains scarce
@@ -474,9 +473,7 @@ at the graduated layer (patterns marked twice-seen, three-times-seen,
 verification. Each session reinforces the pattern; no session checks the
 pattern against original evidence; over months, the substrate becomes
 increasingly confident about claims that were never grounded.</p>
-<p>The mitigation was an evidence gate that refuses to graduate a pattern which does not cite resolvable episode IDs. In April 2026 it was a pre-commit hook on the continuity file; since June 2026 the same check runs inside the memory library’s consolidation step. The hook moves
-verification from “remember to check” to “the commit fails without
-proof.” Golden-fixture tests for the hook were added in late April 2026
+<p>The mitigation was an evidence gate that refuses to graduate a pattern which does not cite resolvable episode IDs. In April 2026 it was a pre-commit hook on the continuity file; since June 2026 the same check runs inside the memory library’s consolidation step. In April 2026 the hook moved verification from “remember to check” to “the commit fails without proof.” Golden-fixture tests for the hook were added in late April 2026
 to close a silent-failure surface where a hook-bypass case had remained
 untested for two months. §4.4 documents the wrap-time grounding check
 that fires the hook; §5.2 documents the hook itself.</p>
@@ -797,7 +794,7 @@ observed in the episodic store are written into continuity’s
 developing-knowledge section as 1x markers. Recurrence (2x) keeps them
 alive. As of April 2026, three independent observations (3x) graduate them to Proven
 status and earn FlowScript compression for token efficiency (§4.3).</p>
-<p>As of the 1.0.2 release the library is an episodic log, a bounded always-loaded continuity file and a crystallized pattern tier. Through 1.0.1 it also formed Hebbian links between co-cited episodes and carried an affect tag; 1.0.2 stopped forming links and ignores the affect tag, after measuring that recall never read the links. An immune system enforces citation-validated graduation: a pattern earns a level only by citing real episodes whose content grounds its explanation, and a failed citation drops it a level, unless it was grounded recently, in which case carryforward holds it. Two architecturally distinct implementations — the flow system documented here and the anneal-memory library packaged separately (Clapham, 2026c) — converge on the same structural conclusion. The implementations are by the same author rather
+<p>As of the 1.0.2 release the library is an episodic log, a bounded always-loaded continuity file and a crystallized pattern tier. Through 1.0.1 it also formed Hebbian links between co-cited episodes and carried an affect tag; 1.0.2 stopped forming links and ignores the affect tag, after measuring that recall never read the links. An immune system enforces citation-validated graduation: a pattern earns a level only by citing real episodes whose content grounds its explanation, and a failed citation drops it a level, unless carryforward holds it (a recently grounded pattern that has not risen past its earned level). Two architecturally distinct implementations — the flow system documented here and the anneal-memory library packaged separately (Clapham, 2026c) — converge on the same structural conclusion. The implementations are by the same author rather
 than by independent research groups; same-author convergence is weaker
 evidence than cross-researcher replication. The signal it carries is
 that architectural divergence at design time, under different
@@ -811,7 +808,7 @@ prominently Anthropic’s enterprise memory layer (April 2026), which
 provides workspace-scoped, filesystem-mounted Markdown context with
 audit logging at the access boundary. The structural correspondence is
 to the continuity layer above (the slow, behavioral-instruction layer
-with persistence and retention controls). The citation-validated immune system, which gates what may graduate into long-term memory, is not present in current commercial offerings (the Hebbian and affect layers I describe here were removed from the library in 1.0.2).</p>
+with persistence and retention controls). The citation-validated immune system, which gates what may graduate into long-term memory, was not present in commercial offerings as of April 2026 (the Hebbian and affect layers I describe here were removed from the library in 1.0.2).</p>
 <p>The audit surface differs by layer as well. Workspace-scoped
 enterprise audit answers <em>who accessed which memory within which
 workspace</em> — an access-control question. The tamper-evident
@@ -1565,9 +1562,7 @@ throughput required is unreliable. Memory drifts. Verification becomes
 ceremony. Rest is displaced. Review fatigue accumulates. The
 operator-side metacognitive degradation §1.A.4 names is real and
 undermines exactly the discipline Clark’s term suggests. The empirical
-observation across six months: every reliance on operator vigilance as
-the hygiene mechanism at sustained throughput failed at some point in
-the six-month window.</p>
+observation across seven months: every reliance on operator vigilance as the hygiene mechanism at sustained throughput failed at some point in the six-month window.</p>
 <p>The mitigations that proved durable were not improved discipline.
 They were structural invariants in the substrate code that make
 hygiene-failure structurally unskippable rather than dependent on
@@ -1630,15 +1625,12 @@ infrastructure</h3>
 <p>In April 2026, <code>validate_continuity_evidence.py</code> refused commits in which
 2x or 3x pattern markers in continuity did not cite resolvable episode
 IDs in the episodic store. The hook was the structural invariant against
-confabulation through continuity (§1.B.2). Without it, ungrounded
-inferences become “remembered facts” silently. With it, the substrate
+confabulation through continuity (§1.B.2). Without it, ungrounded inferences became “remembered facts” silently. With it, the substrate
 could not commit a graduated pattern without resolvable evidence.</p>
 <p>In April 2026, <code>validate_continuity_size.py</code> refused commits over budget,
 with soft warnings at 80 percent of cap and a JSONL history log for
 trend detection. The hook was the structural invariant against
-continuity-bloat. Without it, sections grow indefinitely under
-partial-credit reasoning (“this seems important”) until activation costs
-degrade. With it, growth surfaces as structural friction at the moment
+continuity-bloat. Without it, sections grew indefinitely under partial-credit reasoning (“this seems important”) until activation costs degraded. With it, growth surfaced as structural friction at the moment
 compression is needed.</p>
 <p>Golden-fixture tests for both hooks were added in late April 2026
 (<code>tests/test_continuity_hooks.py</code>, twenty-two fixtures,
@@ -1679,12 +1671,11 @@ highest dividend.</p>
 <h3 id="anti-gatekeeping-recency-hook">§5.4 Anti-gatekeeping recency
 hook</h3>
 <p>A UserPromptSubmit hook injects implementation-intention countermoves at the recency position of the first prompt of a session, on pressure-shaped prompts, and on a backstop cadence in between, from a small set of rotating variants. When this paper was written it ran on every prompt, with five variants.</p>
-<p>The mechanism: primacy-position behavioral instructions (in CLAUDE.md
+<p>When this was written, the mechanism was this: primacy-position behavioral instructions (in CLAUDE.md
 and adjacent instruction files) decay across long contexts via the
 documented “lost in the middle” attention pattern (Liu et al., 2024).
 RLHF-trained completion-theater leak fires hardest at the point in the
-conversation where primacy instructions have most decayed. The recency
-hook re-pressures both ends of the attention distribution: primacy
+conversation where primacy instructions have most decayed. The recency hook re-pressured both ends of the attention distribution: primacy
 instructions at session start, recency-position implementation
 intentions at every prompt. Twelve-plus hours of partnership work across
 three sessions in mid-April 2026 produced subjectively-zero gatekeeping
@@ -1699,10 +1690,7 @@ operator-subjective absence at sites previously leaked-from-routinely;
 structural counting via automated transcript scan is not yet implemented
 and is named here as a measurement gap §8.2 prediction 9 commits to
 closing.</p>
-<p>The hook functions as the structural invariant against
-trained-default leak. Discipline-based instructions to “not gatekeep”
-are insufficient; recency-position injection makes the override
-structurally fresh at every prompt.</p>
+<p>The hook functioned as the structural invariant against trained-default leak. Discipline-based instructions to “not gatekeep” were insufficient; recency-position injection made the override structurally fresh at every prompt.</p>
 <h3 id="bilateral-anti-inbreeding-gate">§5.5 Bilateral anti-inbreeding
 gate</h3>
 <p>The bilateral anti-inbreeding gate is the structural enforcement of
@@ -2056,7 +2044,7 @@ axis is structural; review architectures that ignore it produce
 false-positive promotions.</p>
 <h3 id="diff-aware-code-review">§7.4 Diff-aware code review</h3>
 <p>The consultation system reads git diff via a <code>--diff</code>
-flag. Different agents are dispatched for different review contexts. In April 2026 code review used the adversarial Claude variant plus the Google-lineage and contrarian agents; As of late October 2026, code review draws on Claude, OpenAI and DeepSeek lineages, and other review types use at least one lineage besides Claude.</p>
+flag. Different agents are dispatched for different review contexts. In April 2026 code review used the adversarial Claude variant plus the Google-lineage and contrarian agents. As of late October 2026, code review draws on Claude, OpenAI and DeepSeek lineages, and other review types use at least one lineage besides Claude.</p>
 <p>The structural claim: multi-reviewer-before-publish is non-negotiable
 because single-author review misses bug classes. One diagnostic
 instance: a v0.2.0 release of an internal library had a consultation
@@ -2159,8 +2147,7 @@ literature, remains scarce in the period preceding this paper. That
 criterion is what <em>scarce</em> means in §0.2 and what the abstract
 intends; the looser reading would be unfalsifiable as written and is
 named here as anti-claim.</p>
-<p>Selection effects on operator-pair survivability across the six-month
-window are not addressed by this paper. The operator-pair documented
+<p>Selection effects on operator-pair survivability across the six-month window are not addressed by this paper. The operator-pair documented
 here is one biological and cognitive profile (Mast Cell Activation
 Syndrome with associated work-capacity constraints; specific
 cognitive-architecture characteristics including
