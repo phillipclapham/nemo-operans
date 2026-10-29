@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Don&#x27;t give your agents an org chart: A chart copies the hiding, minus the person who could hold what got hidden." />
+    <meta name="theme-color" content="#0a0a0b" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://nemooperans.com/dont-give-your-agents-an-org-chart" />
+    <meta property="og:title" content="Don&#x27;t give your agents an org chart | Nemo Operans" />
+    <meta property="og:description" content="A chart copies the hiding, minus the person who could hold what got hidden." />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Don&#x27;t give your agents an org chart | Nemo Operans" />
+    <meta name="twitter:description" content="A chart copies the hiding, minus the person who could hold what got hidden." />
+
+    <title>Don&#x27;t give your agents an org chart | Nemo Operans</title>
+
+    <!-- Theme: Prevent FOUC - Dark mode is default -->
+    <script>
+      (function() {
+        const saved = localStorage.getItem('nemo-theme');
+        if (saved === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="styles/main.css" />
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-1DzsT7m9-UVZRCPgEwWEq.js"></script>
+    <script>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Don't give your agents an org chart",
+      "author": {
+        "@type": "Person",
+        "name": "Phill Clapham"
+      },
+      "datePublished": "2026-10-29",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Nemo Operans",
+        "url": "https://nemooperans.com"
+      },
+      "url": "https://nemooperans.com/dont-give-your-agents-an-org-chart"
+    }
+    </script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="site-header">
+      <div class="container">
+        <a href="/" class="site-logo">Nemo Operans</a>
+        <nav class="site-nav">
+          <a href="/about">About</a>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+            <span class="theme-icon"></span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <article>
+        <!-- Essay Header -->
+        <header class="essay-header">
+          <div class="container">
+            <h1 class="essay-title">Don&#x27;t give your agents an org chart</h1>
+            <p class="essay-subtitle">A chart copies the hiding, minus the person who could hold what got hidden.</p>
+            <p class="essay-meta">October 2026 &middot; Phill Clapham</p>
+          </div>
+        </header>
+
+        <!-- Essay Content -->
+        <div class="essay-content">
+
+<p>There&rsquo;s a pattern going around. You make one agent the CEO and you only ever talk to it. The CEO manages team leads, the leads manage workers, the workers report up, and the summary lands in front of you at the top.</p>
+<p>I get the pull. Since late August I&rsquo;ve run something with the same silhouette: one coordinator session sitting over as many as ten or fifteen others, each of them running its own subagents. It took me a long time to find the semantics and processes that could handle the sheer volume of review and judgment that much output needs. Plenty of people building these are doing smart things, but the org chart is the wrong model for managing automated work, and the reason is older than AI itself.</p>
+<h2>An org chart is a bandwidth patch</h2>
+<p>A big part of why companies have layers is that human attention is scarce. Nobody can listen to two hundred people, so you stack managers. Each layer compresses what&rsquo;s below it on the way up. Intent comes back down, gets compressed again. The compression is the job: a middle manager earns their keep by deciding what you don&rsquo;t need to hear.</p>
+<p>That works for people when the manager is good. A person can carry the judgment they&rsquo;re keeping off your plate, and a good one knows when to bring it back.</p>
+<p>Agents have a scarcity of their own. Context windows fill up, and that&rsquo;s a real reason to split work across sessions and subagents. But splitting work is a different move from building a boss. The scarce thing in an agent setup is still one human, and a chart doesn&rsquo;t protect that human. It copies the hiding, minus the person who could hold what got hidden.</p>
+<h2>The hiding is where it goes wrong</h2>
+<p>Every piece of work has a part a mechanism can check and a part only a person can: is this what I meant, is it any good. I call that remainder criterion residue, and adding a layer doesn&rsquo;t shrink it.</p>
+<p>A CEO agent decides at the layer where the remainder is biggest, because deciding what the work <em>is</em> sits at the top. I think the call it makes without you is a call made by something that can&rsquo;t hold the part that matters, and the unresolved judgment doesn&rsquo;t vanish. It comes back to you at the end, unsorted, as a pile to review.</p>
+<p>The version I&rsquo;d lose sleep over is worse than the pile: residue nobody holds. The work looks finished, it ships, and later it turns out to be worse than it looked. You borrowed against that quality when you took the human out of the layer, and the bill comes due later, somewhere else. I haven&rsquo;t caught one in the act. The closest I have is the frozen sessions below, found by luck.</p>
+<h2>Taking a report on faith</h2>
+<p>In my own setup the failure was state I&rsquo;d taken on faith, and I&rsquo;ve been burned three ways.</p>
+<p>A session that had never taken a single turn counted as a working colleague for two hours and twenty minutes. The coordinator reported it to me as live, sent it a message that died at an approval prompt no human could reach, and ran a file-collision check against a session structurally incapable of writing. The check came back clean, for the wrong reason.</p>
+<p>Sessions frozen at a permission prompt can&rsquo;t tell anyone they&rsquo;re frozen. Three sat that way for as long as an hour in one day. Nobody could escalate it, and we found out because a session happened to run a check.</p>
+<p>And one handoff note carried five operational rules, every one stated with the same confidence. Three were false within ninety minutes. Now every carried claim says how it was established.</p>
+<p>Nobody lied. The reporters couldn&rsquo;t see, or couldn&rsquo;t tell what they knew from what they&rsquo;d assumed. So the coordinator stopped taking a session&rsquo;s word for its own state. It checks whether the process is doing anything, what changed on disk, how full each session&rsquo;s context is. That&rsquo;s governance over trust, one step in from where I mostly read about it, the outer edge: what agents can send, what they can spend. The inside needs it too.</p>
+<p>Fair objection: you can bolt that onto a CEO agent tomorrow. You can. You then have a CEO that knows what its reports are doing, and it still resolves judgment that was never its to resolve.</p>
+<h2>A door, not a boss</h2>
+<p>If attention is the scarce thing, the coordinator&rsquo;s job isn&rsquo;t to decide for you or to summarize for you. It guards the one channel that can&rsquo;t scale.</p>
+<p>The difference from a CEO with good manners is what the top does with a judgment it can&rsquo;t settle. A CEO resolves it. This routes it to me.</p>
+<p>There&rsquo;s one place where everything that needs a human waits. An item gets in only if work has stopped on it and nobody but me can settle it. &ldquo;Worth knowing&rdquo; stays out, because the day that door opens you&rsquo;ve built a feed. (An earlier layer of mine had flagged 2,620 things as needing a human and was adding about 39 a day. The list was never once empty. I said it then: <em>&ldquo;just looking at the list is making me want to shut down.&rdquo;</em> Don&rsquo;t build that.)</p>
+<p>Each item arrives with its options and a recommendation. I answer in shorthand, something like &ldquo;2b&rdquo;, and I keep the criteria. The recommendation is the agent&rsquo;s work. The weighing is mine.</p>
+<p>It shows up as current state, not a stream. Every reply opens with what changed since my last message, then the whole list, numbered, nothing dropped. I went there after a bad day when I said <em>&ldquo;what I am responding to is now something like 20 fucking messages ago.&rdquo;</em> A log makes you rebuild the present out of the past. A list I can answer from.</p>
+<h2>Where the door leaks</h2>
+<p>For about two months I ran the shape I&rsquo;m warning you off, and the failures above are how I found out.</p>
+<p>We&rsquo;ve run the door this way since October 26. That&rsquo;s days, not seasons. On the first day I said <em>&ldquo;today was much better &hellip; I call this a success,&rdquo;</em> which is exactly the kind of sentence that ages badly.</p>
+<p>The door can hide things too. An agent decides what gets through it, so it can wrongly decide something doesn&rsquo;t need me and I&rsquo;d never see it. Or the other way, and the list swells back into that 2,620 feed. An item that doesn&rsquo;t explain itself ruins the whole thing. I can only check what reaches me, so what the door wrongly filters out is the same hole I warned about, residue nobody holds, only smaller. I haven&rsquo;t found a better door, and a checker would just be one more thing whose leftovers land on me.</p>
+<p>If you&rsquo;re about to draw boxes and arrows, ask who ends up holding the part nobody can check. If the answer is &ldquo;me, at the end, in a pile,&rdquo; I&rsquo;d draw a door instead.</p>
+<p>I&rsquo;m writing the longer piece, on how parallel work comes back together and where memory belongs.</p>
+<p class="essay-byline"><em>Phill Clapham</em><br />
+<a href="https://nemooperans.com">nemooperans.com</a></p>
+
+        </div>
+
+        <!-- Essay Navigation -->
+        <nav class="essay-nav">
+          <a href="/">&larr; Back to Essays</a>
+        </nav>
+      </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <p class="footer-copyright">&copy; 2026 <a href="https://phillipclapham.com" target="_blank" rel="noopener">Phillip Clapham</a></p>
+      </div>
+    </footer>
+
+    <!-- Theme Toggle Script -->
+    <script src="scripts/theme.js"></script>
+  </body>
+</html>
