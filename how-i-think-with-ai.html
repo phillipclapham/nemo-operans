@@ -570,7 +570,7 @@ distinction by default; it inherits the average prior.</p>
 <p>The mitigation combined operator-set permanent operating-mode
 declarations in the substrate’s behavioral instruction layer (with
 explicit consent and operating-mode permissions installed) and
-recency-hook implementation intentions firing at every prompt submission
+recency-hook implementation intentions firing at every prompt submission when this was written (it now fires on the first prompt, on pressure-shaped prompts and on a backstop cadence)
 to keep the override structurally fresh. Primacy-position behavioral
 instructions decay across long contexts (Liu et al., 2024);
 recency-position injection at every prompt re-pressures both ends of the
@@ -795,9 +795,9 @@ shape.</p>
 <p>Graduation between layers is the consolidation step. Patterns
 observed in the episodic store are written into continuity’s
 developing-knowledge section as 1x markers. Recurrence (2x) keeps them
-alive. Three independent observations (3x) graduate them to Proven
+alive. As of April 2026, three independent observations (3x) graduate them to Proven
 status and earn FlowScript compression for token efficiency (§4.3).</p>
-<p>As of the 1.0.2 release the library is an episodic log, a bounded always-loaded continuity file and a crystallized pattern tier. Through 1.0.1 it also formed Hebbian links between co-cited episodes and carried an affect tag; 1.0.2 stopped forming links and ignores the affect tag, after measuring that recall never read the links. An immune system enforces citation-validated graduation: a pattern earns a level only by citing real episodes whose content grounds its explanation, and a failed citation drops it a level. Two architecturally distinct implementations — the flow system documented here and the anneal-memory library packaged separately (Clapham, 2026c) — converge on the same structural conclusion. The implementations are by the same author rather
+<p>As of the 1.0.2 release the library is an episodic log, a bounded always-loaded continuity file and a crystallized pattern tier. Through 1.0.1 it also formed Hebbian links between co-cited episodes and carried an affect tag; 1.0.2 stopped forming links and ignores the affect tag, after measuring that recall never read the links. An immune system enforces citation-validated graduation: a pattern earns a level only by citing real episodes whose content grounds its explanation, and a failed citation drops it a level, unless it was grounded recently, in which case carryforward holds it. Two architecturally distinct implementations — the flow system documented here and the anneal-memory library packaged separately (Clapham, 2026c) — converge on the same structural conclusion. The implementations are by the same author rather
 than by independent research groups; same-author convergence is weaker
 evidence than cross-researcher replication. The signal it carries is
 that architectural divergence at design time, under different
@@ -872,10 +872,10 @@ the loop closes against a verifiable specification. The practice
 documented here surfaces multiple verification primitives. None of them
 is exactly FunSearch. All sit in the same broader category of
 generator-plus-external-evaluator loops:</p>
-<p>A pre-commit evidence-validation hook refuses commits in which 2x or
-3x pattern markers in continuity do not cite resolvable episode IDs in
+<p>In April 2026 a pre-commit evidence-validation hook refused commits in which 2x or
+3x pattern markers in continuity did not cite resolvable episode IDs in
 the episodic store (§5.2).</p>
-<p>A pre-commit size hook enforces structural caps on continuity
+<p>In April 2026 a pre-commit size hook enforced structural caps on continuity
 sections with soft warnings at 80 percent of cap and a JSONL history log
 for trend detection (§5.2).</p>
 <p>Cross-substrate cold-read at zero marginal cost dispatches outline
@@ -911,8 +911,8 @@ The question “how do we make the AI behave the way we want?” becomes
 “what do we present to the AI at session-start so the desired behavior
 is the lowest-friction behavior?” Until summer 2026 mode detection routed to different loading patterns (today there is one mode, and project context loads on request); activation tokens at the session opener pre-bias the
 substrate toward partnership-mode (§4.1); the recency-position
-anti-gatekeeping hook re-pressures the same priors at every prompt
-submission (§5.4), exploiting the documented “lost in the middle”
+anti-gatekeeping hook re-pressured the same priors at every prompt
+submission when this was written (see the update at §5.4), exploiting the documented “lost in the middle”
 attention pattern (Liu et al., 2024) to place implementation-intention
 countermoves at the position where attention is sharpest.</p>
 <p>The instruction layer is, in CoALA-terminology (Sumers, Yao,
@@ -1335,8 +1335,8 @@ fights pattern-matching shortcut. <em>Do it right the first time</em>
 fights “good enough.” <em>Everything is infrastructure</em> fights
 “small things.” In April 2026 the session opener carried eleven tokens, each pre-empting one failure mode. Since June 2026 no opener is needed: a revised set of directives loads with the standing instructions at every session start, and a prompt-time hook reinforces them.</p>
 <p>Each token does specific anti-RLHF work in the activation zone
-(§2.6). The opener-as-protocol is structural rather than ceremonial: the
-substrate’s behavior is materially different on a session opened with
+(§2.6). In April 2026 the opener-as-protocol was structural rather than ceremonial: the
+substrate’s behavior was materially different on a session opened with
 these tokens than on a session opened with a generic prompt, because the
 activation zone is where partnership-mode lives in the substrate’s
 procedural-memory layer. A complementary execution-mode opener fires at
@@ -1475,9 +1475,7 @@ talked about this, that’s evidence” failure mode (§1.B.2).</p>
 pattern proposed for graduation against episodic evidence. A pattern moves up a level only when it cites real episodes whose content grounds its explanation, one rung per consolidation. The
 grounding annotation is appended inline —
 <code>[evidence: &lt;episode-id&gt;, &lt;episode-id&gt;]</code> on the
-same line as the marker. The pre-commit verification hook documented in
-§5.2 enforces the format structurally; commits without grounding are
-rejected at commit time.</p>
+same line as the marker. Since June 2026 the memory library refuses the graduation at consolidation (§5.2).</p>
 <p><em>Wrap-stats</em> (the structural-invariant layer) generates a
 machine-checked block of facts that must appear in the wrap confirmation
 output. The block is generated by querying the episodic store and
@@ -1488,7 +1486,7 @@ tests documented in the anneal-memory library (Clapham, 2026c).</p>
 <p><em>Bilateral blackboard review</em> (the cross-substrate layer)
 folds entries from the second partnership pair into compression input
 for the primary pair, evaluating each entry against the three gates
-documented in §2.4. <em>Continuity update</em> itself replaces Current
+documented in §2.4. As of April 2026, <em>continuity update</em> itself replaces Current
 State, updates Action Items, adjusts Top of Mind, rewrites Recent
 Context narrative, and updates Developing Knowledge with new 1x markers
 and incremented 2x markers and graduated 3x patterns moved to
@@ -1573,11 +1571,8 @@ the six-month window.</p>
 <p>The mitigations that proved durable were not improved discipline.
 They were structural invariants in the substrate code that make
 hygiene-failure structurally unskippable rather than dependent on
-operator vigilance. Pre-commit hooks refuse malformed commits regardless
-of operator confidence. Phase-gates impose cross-substrate review
-regardless of subjective clarity in the loaded context. Recency-position
-injection fires at every prompt regardless of whether the operator
-remembers to invoke it.</p>
+operator vigilance. In April 2026, pre-commit hooks refused malformed commits regardless of operator confidence (the same checks now run inside the memory library). Phase-gates impose cross-substrate review
+regardless of subjective clarity in the loaded context. Recency-position injection fired at every prompt when this was written, regardless of whether the operator remembered to invoke it.</p>
 <p>This section uses Clark’s term for the implementation that emerged.
 The redefinition is acknowledged: the layer that proved load-bearing in
 the practice documented here is a different layer than the term
@@ -1632,15 +1627,15 @@ hygiene moves below are children.</p>
 <h3 id="pre-commit-hook-infrastructure">§5.2 Pre-commit hook
 infrastructure</h3>
 <p>In April 2026 two pre-commit hooks carried the principal load; both were retired in June 2026, and the same invariants are now enforced inside the memory library.</p>
-<p><code>validate_continuity_evidence.py</code> refuses commits in which
-2x or 3x pattern markers in continuity do not cite resolvable episode
-IDs in the episodic store. The hook is the structural invariant against
+<p>In April 2026, <code>validate_continuity_evidence.py</code> refused commits in which
+2x or 3x pattern markers in continuity did not cite resolvable episode
+IDs in the episodic store. The hook was the structural invariant against
 confabulation through continuity (§1.B.2). Without it, ungrounded
 inferences become “remembered facts” silently. With it, the substrate
-cannot commit a graduated pattern without resolvable evidence.</p>
-<p><code>validate_continuity_size.py</code> refuses commits over budget,
+could not commit a graduated pattern without resolvable evidence.</p>
+<p>In April 2026, <code>validate_continuity_size.py</code> refused commits over budget,
 with soft warnings at 80 percent of cap and a JSONL history log for
-trend detection. The hook is the structural invariant against
+trend detection. The hook was the structural invariant against
 continuity-bloat. Without it, sections grow indefinitely under
 partial-credit reasoning (“this seems important”) until activation costs
 degrade. With it, growth surfaces as structural friction at the moment
@@ -2061,7 +2056,7 @@ axis is structural; review architectures that ignore it produce
 false-positive promotions.</p>
 <h3 id="diff-aware-code-review">§7.4 Diff-aware code review</h3>
 <p>The consultation system reads git diff via a <code>--diff</code>
-flag. Different agents are dispatched for different review contexts. In April 2026 code review used the adversarial Claude variant plus the Google-lineage and contrarian agents; the meshes have since changed by review type and now rest on at least two lineages besides Claude where the repo allows.</p>
+flag. Different agents are dispatched for different review contexts. In April 2026 code review used the adversarial Claude variant plus the Google-lineage and contrarian agents; As of late October 2026, code review draws on Claude, OpenAI and DeepSeek lineages, and other review types use at least one lineage besides Claude.</p>
 <p>The structural claim: multi-reviewer-before-publish is non-negotiable
 because single-author review misses bug classes. One diagnostic
 instance: a v0.2.0 release of an internal library had a consultation
