@@ -90,6 +90,7 @@
         <div class="essay-content">
 <blockquote class="correction-note">
 <p><strong>Correction note — October 4, 2026 (revised October 5, 2026).</strong> This essay says the methodology &ldquo;transfers directly into 0-human agentic contexts.&rdquo; I no longer think so. The human half is part of the method, not a scaffold you remove once it&rsquo;s built; Levain now encodes that, refusing to let an unattended seat crystallize anything, so it can never rewrite its own bedrock. The immune-system names used here (&ldquo;anti-inbreeding&rdquo;, &ldquo;principle demotion&rdquo;) were removed from anneal-memory&rsquo;s README in version 0.3.2 (May 2026), because no code implemented what they described (see the v1.1 note on <a href="/a-structural-theory-of-harnesses">A Structural Theory of Harnesses</a>). More: <a href="/the-suit-not-the-butler">The Suit, Not the Butler</a>, Section XIII.</p>
+<p><strong>Update &mdash; October 29, 2026.</strong> The <code>continuity.md</code> file it describes was retired on June 1st; that memory now lives in anneal-memory.</p>
 </blockquote>
 
 <h2 id="the-pattern-that-prompted-this">The pattern that prompted this</h2>
@@ -109,7 +110,7 @@
 <h2 id="flow-is-methodology-not-human-substrate">FLOW is methodology, not human-substrate</h2>
 <p>Most people who encounter FLOW methodology assume it&rsquo;s a pattern for how a human structures their work with an AI assistant. Continuity files. Project memory. Wrap rituals at session end. From the outside, it looks like productivity tooling for the human user.</p>
 <p>That reading is wrong, and it&rsquo;s the source of why &ldquo;applying FLOW to agent orchestration&rdquo; feels like a category mismatch.</p>
-<p><code>continuity.md</code> is not the human&rsquo;s file. It&rsquo;s the AI&rsquo;s file. The compression of a session into stratified memory &mdash; patterns graduating through evidence, temporal cleanup, FlowScript encoding, partnership challenges, decision marks &mdash; is the AI&rsquo;s cognitive labor. The human triggers the wrap. The AI does the compression. The act of writing down what to keep IS the thinking that produces continuity across sessions.</p>
+<p>The memory file is the AI&rsquo;s file, not the human&rsquo;s. The compression of a session into stratified memory &mdash; patterns graduating through evidence, temporal cleanup, FlowScript encoding, partnership challenges, decision marks &mdash; is the AI&rsquo;s cognitive labor. The human triggers the wrap. The AI does the compression. The act of writing down what to keep IS the thinking that produces continuity across sessions.</p>
 <p>This means FLOW is <strong>agent-resident</strong>. The methodology runs on the LLM side of any human-LLM partnership. Wherever an LLM is doing cognition, FLOW applies. The fact that FLOW happens to involve a human in the loop in most current implementations is an artifact of how it was developed, not a structural feature of the methodology.</p>
 <p>Which means FLOW transfers directly into 0-human agentic contexts. An agent in Paperclip can have its own continuity, its own wrap, its own pattern graduation, its own decision marks. The methodology runs on the agent side at runtime. The human (if there is one) provides direction at boundaries, not authoring at the file level.</p>
 
@@ -118,19 +119,19 @@
 <p><strong>Layer 1 &mdash; Substrate operations (memory primitives).</strong> This is where memory actually lives.</p>
 <ol>
 <li>Episodic capture &mdash; factual events of the session logged as discrete provenance-tagged episodes.</li>
-<li>Pattern accumulation &mdash; observations from multiple episodes form patterns (1x &rarr; 2x &rarr; 3x firing across distinct contexts).</li>
-<li>Pattern graduation &mdash; at 3x with quality gates, patterns move from Developing &rarr; Proven with citation evidence.</li>
-<li>Temporal stratification &mdash; Developing (7-day window), Proven (compressed permanent), Foundation (axioms), with cleanup rules.</li>
-<li>Association formation &mdash; Hebbian-style links between patterns that co-fire across episodes.</li>
-<li>Affective tagging &mdash; emotional/valence markers on memories that modulate retrieval weight.</li>
-<li>Immune system &mdash; anti-inbreeding (don&rsquo;t recycle the same patterns), citation-validation, principle demotion when stale.</li>
+<li>Pattern accumulation &mdash; observations from multiple episodes form patterns (1x &rarr; 2x and beyond, each level re-earned by citing real episodes).</li>
+<li>Pattern graduation &mdash; at 2x, with a cited-evidence tag, a pattern becomes Proven; the level keeps climbing as it is re-earned.</li>
+<li>Temporal stratification &mdash; a first sighting (1x), patterns re-earned across contexts (2x and up) held to a seven-day freshness rule, with cleanup.</li>
+<li>Association formation &mdash; built and measured in early anneal-memory; as of the 1.0.2 release it no longer forms links, because recall never read them.</li>
+<li>Affective tagging &mdash; built and measured in early anneal-memory; as of the 1.0.2 release it ignores the affect input, because recall never read it.</li>
+<li>Immune system &mdash; citation-validation of every graduation, demotion when a citation fails, and staleness flagged for the agent to refresh or retire.</li>
 </ol>
 <p><strong>Layer 2 &mdash; Compression operations (cognitive labor).</strong> This is where the actual thinking happens at session boundaries.</p>
 <ol start="8">
 <li>Session compression &mdash; reducing the texture of a session into encoded patterns and observations.</li>
 <li>FlowScript encoding &mdash; semantic notation for high-density compression at low token cost.</li>
 <li>Activation vs reference zoning &mdash; what loads at session start (load-bearing for behavior) vs what&rsquo;s available on-demand (token-efficient).</li>
-<li>State markers and lifecycle &mdash; <code>?</code> thought &rarr; <code>&#x2713;</code> proven, <code>[B:reason,since]</code> blocked, <code>[P:why,until]</code> parked, with audit trail.</li>
+<li>State markers and lifecycle &mdash; <code>?</code> thought &rarr; <code>&#x2713;</code> proven, <code>[blocked(reason, since)]</code> blocked, <code>[parking(why, until)]</code> parked, with audit trail.</li>
 <li>Decision marking with rationale &mdash; <code>[decided(rationale, on)]</code> captures irreversible commitments.</li>
 </ol>
 <p><strong>Layer 3 &mdash; Partnership operations.</strong> This is where the agent stays calibrated against external load.</p>
@@ -138,7 +139,7 @@
 <li>Partnership challenge &mdash; external load at framing/architecture/completion boundaries breaks internal audit drift.</li>
 <li>Asymmetric optimization &mdash; each side of a partnership optimizes for the other&rsquo;s parsing.</li>
 <li>Recency-position injection &mdash; anti-RLHF infrastructure preserving behavior across long sessions.</li>
-<li>Mode detection &mdash; different operation profiles depending on what kind of work is happening.</li>
+<li>Presence &mdash; one mode everywhere, with the protocol loaded in every directory.</li>
 </ol>
 <p><strong>Layer 4 &mdash; Project operations.</strong> This is where memory gets organized at scale across multiple work bodies.</p>
 <ol start="17">
@@ -156,7 +157,7 @@
 
 <h2 id="substrate-vs-methodology-vs-config">Substrate vs methodology vs config &mdash; the three-layer model</h2>
 <p>Now the load-bearing distinction.</p>
-<p><strong>Substrate</strong> is the memory primitive. It&rsquo;s the database, the vector store, the SQLite hippocampus, the markdown file on disk. It&rsquo;s where memory physically lives. Substrate is implementation. Examples: <a href="https://pypi.org/project/anneal-memory/">anneal-memory</a> (four-layer architecture: episodic store + graduated patterns + Hebbian associations + affective tagging, plus an immune system across all four), <a href="https://hindsight.vectorize.io/">Hindsight</a> by Vectorize.io (biomimetic structure, <a href="https://venturebeat.com/data/with-91-accuracy-open-source-hindsight-agentic-memory-provides-20-20-vision">91.4% on LongMemEval</a>, MCP-ready, production-deployed at Fortune 500 scale), or markdown files in a git repo (which is what most current FLOW implementations actually use).</p>
+<p><strong>Substrate</strong> is the memory primitive. It&rsquo;s the database, the vector store, the SQLite hippocampus, the markdown file on disk. It&rsquo;s where memory physically lives. Substrate is implementation. Examples: <a href="https://pypi.org/project/anneal-memory/">anneal-memory</a> (an append-only episodic store, a bounded always-loaded continuity file, a long-term pattern tier recalled on cue, and an immune system that gates what graduates), <a href="https://hindsight.vectorize.io/">Hindsight</a> by Vectorize.io (biomimetic structure, <a href="https://venturebeat.com/data/with-91-accuracy-open-source-hindsight-agentic-memory-provides-20-20-vision">91.4% on LongMemEval</a>, MCP-ready, production-deployed at Fortune 500 scale), or markdown files in a git repo (which is what most current FLOW implementations actually use).</p>
 <p><strong>Methodology</strong> is how memory accrues meaningfully. It&rsquo;s the operations described above &mdash; when to capture an episode, when to graduate a pattern, how to compress a session, how to detect drift. Methodology is discipline. FLOW is a methodology. So is whatever discipline a research team uses for lab notebooks. So is the way a software engineer writes commit messages. The methodology layer is what makes substrate accrue into something more than storage.</p>
 <p><strong>Config</strong> is declared role and permission state. It&rsquo;s AGENTS.md files, role definitions, budget caps, reporting lines, skill registrations, tool permissions. Config is parameter. It tells the system what an agent can do and what an agent is supposed to be.</p>
 <p>These three layers are categorically different. Confusing them produces architectural errors.</p>
@@ -222,7 +223,7 @@
 <h2 id="wiring-it-together">Wiring it together &mdash; practical</h2>
 <p>The substrate layer requires picking a memory implementation. Two real options as of this writing.</p>
 <p><strong>Hindsight (Vectorize.io).</strong> Open-source agent memory system. 91.4% on LongMemEval, current state-of-the-art. Three operations: Retain, Reflect, Recall. Two-line integration via LLM wrapper. REST/Python/Node.js/CLI SDKs. MCP server (plugs directly into Claude Code, Codex, Cursor &mdash; the runtimes Paperclip already supports). Self-hostable via Docker. Production-deployed at Fortune 500 scale. Works with all major LLM providers including local ones (Ollama, LMStudio). The pragmatic choice for a real production lead-gen company. Battle-tested.</p>
-<p><strong>anneal-memory.</strong> Four-layer architecture: episodic store + continuity file + Hebbian associations + limbic affective tagging, plus an immune system across all four (anti-inbreeding, citation-validated graduation, principle demotion). Methodology-aligned by design &mdash; built in coordination with FLOW, so the substrate operations map cleanly onto FLOW Layer 1. PyPI: <code>pip install anneal-memory</code>. Smaller scale than Hindsight, less battle-tested at production volume, still pre-1.0. Choose this when methodology-substrate alignment matters more than benchmark-leading scale, or when you want a substrate whose internals you can inspect without learning a new vector-store API.</p>
+<p><strong>anneal-memory.</strong> An append-only episodic store, a bounded always-loaded continuity file, a long-term pattern tier recalled on cue, and an immune system that gates what graduates. Methodology-aligned by design &mdash; built in coordination with FLOW, so the substrate operations map cleanly onto FLOW Layer 1. PyPI: <code>pip install anneal-memory</code>. Smaller scale than Hindsight, less battle-tested at production volume; 1.0 shipped in October 2026. Choose this when methodology-substrate alignment matters more than benchmark-leading scale, or when you want a substrate whose internals you can inspect without learning a new vector-store API.</p>
 <p>The honest framing: Hindsight is the production-grade choice. anneal-memory is the methodology-aligned choice. If your friend is running a real revenue-bearing lead-gen company, lead with Hindsight. If you&rsquo;re building something where the substrate&rsquo;s internal architecture matters to you, anneal-memory is the methodology-native option. Both work. Pick based on the actual constraint.</p>
 <p>The methodology layer requires implementing FLOW protocols as Paperclip skills. This is genuinely net-new work for most teams &mdash; there&rsquo;s no off-the-shelf &ldquo;FLOW skill pack for Paperclip&rdquo; yet. The skills to build, in priority order:</p>
 <ol>
@@ -250,7 +251,7 @@
 <li>Paperclip &mdash; open-source orchestration for zero-human companies: <a href="https://github.com/paperclipai/paperclip">github.com/paperclipai/paperclip</a></li>
 <li>Hindsight &mdash; agent memory system, 91.4% LongMemEval: <a href="https://hindsight.vectorize.io/">hindsight.vectorize.io</a></li>
 <li>VentureBeat coverage of Hindsight benchmark: <a href="https://venturebeat.com/data/with-91-accuracy-open-source-hindsight-agentic-memory-provides-20-20-vision">venturebeat.com</a></li>
-<li>anneal-memory &mdash; four-layer agent memory library: <a href="https://pypi.org/project/anneal-memory/">pypi.org/project/anneal-memory</a></li>
+<li>anneal-memory &mdash; agent memory library: <a href="https://pypi.org/project/anneal-memory/">pypi.org/project/anneal-memory</a></li>
 <li>Related: <em><a href="/anarchism-with-invariants">Anarchism with Invariants</a></em> (April 2026) &mdash; emergent identity in harness-era AI, the SOUL.md critique at the agent-identity layer</li>
 <li>Related: <em><a href="/how-i-think-with-ai">How I Think With AI</a></em> (April 2026) &mdash; operator-class HOWTO at the partnership cognition layer</li>
 </ul>
