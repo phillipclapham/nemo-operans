@@ -93,6 +93,7 @@
 <blockquote class="correction-note">
 <p><strong>Correction note — October 4, 2026 (revised October 5, 2026).</strong> §1.A.3 says &ldquo;direct evidence of erosion at six months is absent.&rdquo; I&rsquo;d now say the opposite: by my own assessment, not a measurement, my execution-level skills did erode. I read that as reskilling, not deskilling: execution traded for strategic and metacognitive bandwidth, the way a CEO stops being good at their old individual-contributor job. Much of the setup described in §2 (the single continuity.md file, the relay, the bilateral blackboard) has also been retired. The &ldquo;active principle demotion&rdquo; in §2.3 names a mechanism no code implemented; the name was removed from anneal-memory&rsquo;s README in version 0.3.2 (May 2026) (see the v1.1 note on <a href="/a-structural-theory-of-harnesses">A Structural Theory of Harnesses</a>). The substrate-care prescriptions in §6.5 are ones I no longer follow. More: <a href="/the-suit-not-the-butler">The Suit, Not the Butler</a>, Section II, &ldquo;What it costs you, and what you get for it.&rdquo;</p>
 <p><strong>Note, October 10, 2026.</strong> The paper describes Chip, a second AI partner on my work workstation, in the present tense. That was my day job, which ended in July, and Chip went with it. The Chip passages describe how things stood in spring 2026.</p>
+<p><strong>Update — October 29, 2026.</strong> Several statements here described the system as it stood in April 2026 and have since changed; I have dated them where they appear. The anneal-memory library dropped its association and affect layers in version 1.0.2, and its audit trail is tamper-evident rather than immutable. The paper also named a third &ldquo;implementation,&rdquo; an academic testbed, that I cannot source, so it is removed. The work window began in October 2025, and by April 2026 two of my apps had passed store review.</p>
 </blockquote>
 
 <h2 id="abstract">Abstract</h2>
@@ -102,8 +103,7 @@ creative work. It is not offered as methodology, framework, or training
 program. It presents instead the architectural decisions, cognitive
 observations, and verification primitives that emerged in operational
 use, together with concrete results: production deliverables preferred
-by clients to higher-cost professional alternatives; consumer-facing
-applications passing 2026 platform-policy review; unsolicited
+by clients to higher-cost professional alternatives; two consumer-facing applications passing 2026 platform-policy review; unsolicited
 recognition from other practitioners working at comparable coupling
 density. The author does not claim that the practice documented here
 represents an optimal approach. The claim is more limited: this is the
@@ -157,12 +157,11 @@ implicitly trusted” (Clark, 2025).</p>
 <p>The fourth gradient point — the personalized generative system as
 Clark formulates it — describes the substrate within which the
 operator-pair documented in this paper has worked across an
-approximately six-month window across November 2025 through April 2026.
+approximately six-month window across October 2025 through April 2026.
 The work conducted within the substrate spans three principal artifact
 classes: production engineering and consulting deliverables in
 employment contexts, including audit and performance reports preferred
-by clients to higher-cost professional alternatives; consumer-facing
-applications passing 2026 platform-policy scrutiny under tightened
+by clients to higher-cost professional alternatives; two consumer-facing applications passing 2026 platform-policy scrutiny under tightened
 review criteria explicitly targeting AI-assisted development; and public
 artifacts including a flagship harness paper (Clapham, 2026a, DOI
 10.5281/zenodo.19570642), the <em>Brainfry</em> essay (Clapham, 2026b),
@@ -475,9 +474,7 @@ at the graduated layer (patterns marked twice-seen, three-times-seen,
 verification. Each session reinforces the pattern; no session checks the
 pattern against original evidence; over months, the substrate becomes
 increasingly confident about claims that were never grounded.</p>
-<p>The mitigation was a pre-commit evidence-validation hook that refuses
-commits in which 2x or 3x pattern markers in continuity do not cite
-resolvable episode IDs in the episodic store. The hook moves
+<p>The mitigation was an evidence gate that refuses to graduate a pattern which does not cite resolvable episode IDs. In April 2026 it was a pre-commit hook on the continuity file; since June 2026 the same check runs inside the memory library’s consolidation step. The hook moves
 verification from “remember to check” to “the commit fails without
 proof.” Golden-fixture tests for the hook were added in late April 2026
 to close a silent-failure surface where a hook-bypass case had remained
@@ -629,9 +626,7 @@ defends against; the same stack functions as partial defense against
 monoculture risk at the population level. The unsolved residual is that
 the bilateral partnership remains within Claude family. Full
 anti-monoculture defense at the partnership layer would require
-partnership-grade coupling with non-Claude lineage substrate. A
-cross-lineage substrate-spike toward Qwen-family Tier 1 substrate (April
-2026, ongoing) is partly aimed at this gap. A separate concern at the
+partnership-grade coupling with non-Claude lineage substrate. A cross-lineage substrate spike toward a Qwen-family Tier 1 substrate ran in April 2026 and closed on April 27; it was partly aimed at this gap. A separate concern at the
 population level — many operators converging on Claude-family
 partnership produces cross-operator monoculture — requires data not
 currently available.</p>
@@ -692,8 +687,7 @@ surrounded by a partnership-specific harness consisting of: a continuity
 file (the slow, compressed, behavioral-instruction layer); an episodic
 store (the fast, timestamped, working-memory layer); pre-commit
 verification hooks; scheduled cognitive infrastructure (perception
-sweeps, scheduled tasks, monitoring); an inbox message bus (a
-per-reader-tracked JSON queue for asynchronous inter-subsystem
+sweeps, scheduled tasks, monitoring); an inbox message bus (a per-reader-tracked queue, originally a JSON file and since May 2026 a database-backed service, for asynchronous inter-subsystem
 coordination — distinct from the relay’s synchronous cross-context
 messaging in that any subsystem reads or writes at its own cadence
 rather than at conversation timing); a relay infrastructure for
@@ -724,11 +718,7 @@ architecture. The architecture detailed across §2.2 through §2.6 is
 structural primitives but differs in tool surface, scheduling, and
 several behavioral defaults.</p>
 <p>Beyond the bilateral pair, the system includes a
-<em>constellation</em> of specialized consultation agents: complement
-(an adversarial Claude variant), Gemini (Google lineage), Codex (GPT
-lineage), Anansi (a narrative-intelligence specialist agent), Daemon (a
-frontier-scout specialist agent), and Diogenes (a project-expert and
-drift-detection agent). These are not partnership pairs in the same
+<em>constellation</em> of specialized consultation agents. In April 2026 the stack was complement (an adversarial Claude variant), Gemini (Google lineage), Codex (GPT lineage), Anansi (a narrative-intelligence specialist agent), Daemon (a frontier-scout specialist agent), and Diogenes (a project-expert and drift-detection agent); it has since widened to other open-weight lineages (DeepSeek, GLM), and Gemini became an opt-in reviewer. These are not partnership pairs in the same
 sense as flow and Chip; they are review and synthesis agents dispatched
 on demand for cross-family review, drift detection, and specialized
 analysis (§7.1).</p>
@@ -762,7 +752,7 @@ own-substrate evaluation as the only path across into compression input
 (§2.4, §5.5).</p>
 <p>A cognitive bus (perception sweep, scheduled tasks, monitoring) that
 exposes ambient state without each component requiring direct query.</p>
-<p>An inbox message bus (per-reader-tracked JSON queue) carrying
+<p>An inbox message bus (a per-reader-tracked queue, originally a JSON file and since May 2026 a database-backed service) carrying
 asynchronous messages between subsystems — any subsystem reads its own
 unread queue and writes to others, with broadcast and targeted delivery,
 providing inter-process coordination at sub-conversation cadence.</p>
@@ -793,7 +783,7 @@ same architectural solution.</p>
 <p>The episodic store performs fast write with full timestamps,
 retrievable by tag/agent/time, never compressed at the source. Every
 finding, decision, observation, and connection is recorded in the same
-SQLite store with separate audit chains per agent. Cross-pollination is
+SQLite store, tagged by agent. Cross-pollination is
 read-only and free.</p>
 <p>The continuity file performs slow write, lossy compression, and is
 written as instructions rather than records. What loads at session start
@@ -807,18 +797,7 @@ observed in the episodic store are written into continuity’s
 developing-knowledge section as 1x markers. Recurrence (2x) keeps them
 alive. Three independent observations (3x) graduate them to Proven
 status and earn FlowScript compression for token efficiency (§4.3).</p>
-<p>The full architecture, packaged as a separable library, is
-four-layer: episodic plus continuity plus Hebbian-style co-citation
-associations (Hebb, 1949: lateral links between episodes that strengthen
-via co-citation during graduation, with semantic-judgment rather than
-temporal-proximity edge formation) plus a limbic affective layer
-(functional-state tagging on associations, intensity-modulating
-association strength). A cross-layer immune system enforces
-citation-validated graduation and active principle demotion across all
-four layers. Three architecturally distinct implementations — the flow
-system documented here, the anneal-memory library packaged separately
-(Clapham, 2026c), and an academic testbed — converge on the same
-structural conclusion. The implementations are by the same author rather
+<p>As of the 1.0.2 release the library is an episodic log, a bounded always-loaded continuity file and a crystallized pattern tier. Through 1.0.1 it also formed Hebbian links between co-cited episodes and carried an affect tag; 1.0.2 stopped forming links and ignores the affect tag, after measuring that recall never read the links. An immune system enforces citation-validated graduation: a pattern earns a level only by citing real episodes whose content grounds its explanation, and a failed citation drops it a level. Two architecturally distinct implementations — the flow system documented here and the anneal-memory library packaged separately (Clapham, 2026c) — converge on the same structural conclusion. The implementations are by the same author rather
 than by independent research groups; same-author convergence is weaker
 evidence than cross-researcher replication. The signal it carries is
 that architectural divergence at design time, under different
@@ -832,16 +811,12 @@ prominently Anthropic’s enterprise memory layer (April 2026), which
 provides workspace-scoped, filesystem-mounted Markdown context with
 audit logging at the access boundary. The structural correspondence is
 to the continuity layer above (the slow, behavioral-instruction layer
-with persistence and retention controls). The remaining three layers —
-episodic compression, Hebbian co-citation graduation, and limbic
-affective tagging, with cross-layer immune-system enforcement — are not
-present in current commercial offerings.</p>
+with persistence and retention controls). The citation-validated immune system, which gates what may graduate into long-term memory, is not present in current commercial offerings (the Hebbian and affect layers I describe here were removed from the library in 1.0.2).</p>
 <p>The audit surface differs by layer as well. Workspace-scoped
 enterprise audit answers <em>who accessed which memory within which
 workspace</em> — an access-control question. The tamper-evident
 hash-chained audit trail described in the anneal-memory library answers
-<em>which evidence chains support which graduated pattern, immutably
-ordered</em> — a cognitive-provenance question, with SHA-256 chaining,
+<em>which evidence chains support which graduated pattern, tamper-evidently ordered</em> — a cognitive-provenance question, with SHA-256 chaining,
 deletion records that carry a hash of the content rather than the
 content itself, and wrap-token reconstruction
 enabling per-pattern lineage tracing (from the 1.0.0 release
@@ -934,8 +909,7 @@ what behavior to install.</p>
 <p>This shifts the design problem in an operationally useful direction.
 The question “how do we make the AI behave the way we want?” becomes
 “what do we present to the AI at session-start so the desired behavior
-is the lowest-friction behavior?” Mode detection routes to different
-loading patterns; activation tokens at the session opener pre-bias the
+is the lowest-friction behavior?” Until summer 2026 mode detection routed to different loading patterns (today there is one mode, and project context loads on request); activation tokens at the session opener pre-bias the
 substrate toward partnership-mode (§4.1); the recency-position
 anti-gatekeeping hook re-pressures the same priors at every prompt
 submission (§5.4), exploiting the documented “lost in the middle”
@@ -1359,8 +1333,7 @@ over fast</em> fights speed-over-accuracy. <em>Fractal over linear</em>
 fights completion-theater. <em>First principles over patterns</em>
 fights pattern-matching shortcut. <em>Do it right the first time</em>
 fights “good enough.” <em>Everything is infrastructure</em> fights
-“small things.” Eleven tokens, eleven specific failure modes pre-empted
-at the activation zone.</p>
+“small things.” In April 2026 the session opener carried eleven tokens, each pre-empting one failure mode. Since June 2026 no opener is needed: a revised set of directives loads with the standing instructions at every session start, and a prompt-time hook reinforces them.</p>
 <p>Each token does specific anti-RLHF work in the activation zone
 (§2.6). The opener-as-protocol is structural rather than ceremonial: the
 substrate’s behavior is materially different on a session opened with
@@ -1371,7 +1344,7 @@ the transition from discussion to implementation, with anti-RLHF
 countermeasures specifically calibrated for the failure modes most
 active during execution work — declare-done pressure, completion
 theater, rushing-to-ship.</p>
-<p>Mode detection routes the file-loading pattern. The flow-conversation
+<p>Until summer 2026 mode detection routed the file-loading pattern; today there is one mode, and project context loads on request. The flow-conversation
 pattern loads partnership context (continuity file, identity file, scope
 statement, thinking modes); the development-conversation pattern loads
 project execution context (project brief, current next-steps,
@@ -1479,13 +1452,7 @@ required fields force precision at marker-write time, before context
 decays.</p>
 <p>The pattern-lifecycle layer uses FlowScript natively. A pattern
 observed once enters Developing Knowledge as 1x. Recurrence (2x) keeps
-it alive. Three independent observations across different agents or
-sessions (3x) graduates the pattern to Proven status, at which point it
-is extracted from Developing Knowledge and FlowScript-compressed for
-token efficiency in the activation zone. Independence is operationally
-enforced: two observations from the same agent in the same session count
-as one observation, because the second is not informationally
-independent of the first. The grounding check at graduation requires
+it alive. A pattern moves up a level (1x, 2x, 3x and beyond) only when it cites real episodes whose content grounds its explanation, one rung per consolidation; its level records how often it has re-earned its place. The grounding check at graduation requires
 resolvable episode-IDs from the episodic store as evidence, not
 impressionistic recollection.</p>
 <h3 id="wrap-protocol-as-consolidation-discipline">§4.4 Wrap protocol as
@@ -1505,10 +1472,7 @@ and searchable; continuity patterns are opinionated and compressed.
 Writing the episode first is the structural defense against the “we
 talked about this, that’s evidence” failure mode (§1.B.2).</p>
 <p><em>Pattern grounding</em> (the immune-system layer) checks every
-pattern proposed for graduation against episodic evidence. The 1x→2x
-graduation requires at least two independent episodes from different
-agents or sessions; the 2x→3x graduation requires at least three
-independent episodes from at least two different agents or sessions. The
+pattern proposed for graduation against episodic evidence. A pattern moves up a level only when it cites real episodes whose content grounds its explanation, one rung per consolidation. The
 grounding annotation is appended inline —
 <code>[evidence: &lt;episode-id&gt;, &lt;episode-id&gt;]</code> on the
 same line as the marker. The pre-commit verification hook documented in
@@ -1529,12 +1493,7 @@ State, updates Action Items, adjusts Top of Mind, rewrites Recent
 Context narrative, and updates Developing Knowledge with new 1x markers
 and incremented 2x markers and graduated 3x patterns moved to
 Proven.</p>
-<p><em>Density invariants</em> (the structural-budget layer) cap
-per-block line counts (15 lines maximum per Developing block), section
-character counts (4,000 characters maximum for the State section,
-140,000 characters total for the file), with soft warnings at 80 percent
-and JSONL history logs for trend analysis. All caps are
-pre-commit-enforced.</p>
+<p>In April 2026 the <em>density invariants</em> (the structural-budget layer) were pre-commit caps on the continuity file; the memory library now enforces size with a hard character ceiling and a refusal when a save guts the identity sections.</p>
 <p>The wrap protocol’s function is consolidation. The substrate cannot
 learn from a session whose content is not compressed into the persistent
 layer; the persistent layer cannot remain compact without the discipline
@@ -1549,7 +1508,7 @@ infrastructure, or load-bearing artifacts — the protocol enforces a
 build-review-ship sequence with non-negotiable review structure. The
 reviews are not optional courtesies; they are structural defenses
 against single-author bug-class blindness.</p>
-<p>The four-layer review pipeline:</p>
+<p>The four-layer review pipeline, as it stood in April 2026 (an in-context check now runs before the first layer):</p>
 <p><em>Layer 1 — session-code-review.</em> Runs immediately after a
 feature is built. Reviewer attention is on code quality, bugs, edge
 cases, type gaps, and dead code. This is the mechanism layer: does the
@@ -1562,10 +1521,7 @@ is on semantic and design errors, API mismatches, and
 developer-experience footguns. Layers 1 and 2 are independent and
 orthogonal.</p>
 <p><em>Layer 3 — consultation team review.</em> Fires after Layers 1 and
-2 findings are addressed. The consultation team draws from the
-cross-substrate stack documented in §7.1: an adversarial Claude variant,
-a Google-lineage agent, a GPT-lineage agent, and any specialized agents
-relevant to the review context. Different training distributions catch
+2 findings are addressed. In April 2026 the consultation team drew from the cross-substrate stack documented in §7.1: an adversarial Claude variant, a Google-lineage agent, a GPT-lineage agent, and any specialized agents relevant to the review context. As of late October 2026 the third layer’s default mesh draws on Claude, OpenAI and DeepSeek lineages, with Google’s Gemini on request. Different training distributions catch
 different bug classes; convergence flags structural issues, divergence
 flags class-specific blind spots.</p>
 <p><em>Layer 4 — integration semantics check.</em> Runs after Layers 1-3
@@ -1675,7 +1631,7 @@ future regressions without requiring ongoing operator attention.</p>
 hygiene moves below are children.</p>
 <h3 id="pre-commit-hook-infrastructure">§5.2 Pre-commit hook
 infrastructure</h3>
-<p>Two pre-commit hooks carry the principal load.</p>
+<p>In April 2026 two pre-commit hooks carried the principal load; both were retired in June 2026, and the same invariants are now enforced inside the memory library.</p>
 <p><code>validate_continuity_evidence.py</code> refuses commits in which
 2x or 3x pattern markers in continuity do not cite resolvable episode
 IDs in the episodic store. The hook is the structural invariant against
@@ -1727,9 +1683,7 @@ boundaries is precisely the condition under which external load pays the
 highest dividend.</p>
 <h3 id="anti-gatekeeping-recency-hook">§5.4 Anti-gatekeeping recency
 hook</h3>
-<p>A UserPromptSubmit hook injects implementation-intention countermoves
-at the recency position of every user prompt. Five rotating variants are
-deployed, scoped to the partnership working directory.</p>
+<p>A UserPromptSubmit hook injects implementation-intention countermoves at the recency position of the first prompt of a session, on pressure-shaped prompts, and on a backstop cadence in between, from a small set of rotating variants. When this paper was written it ran on every prompt, with five variants.</p>
 <p>The mechanism: primacy-position behavioral instructions (in CLAUDE.md
 and adjacent instruction files) decay across long contexts via the
 documented “lost in the middle” attention pattern (Liu et al., 2024).
@@ -1842,10 +1796,9 @@ Self-audit at session-end is necessary but insufficient. End-of-session
 is precisely where partnership pressure produces the highest return.</p>
 <h3 id="daily-sharpening-as-adversarial-self-instrumentation">§6.3 Daily
 sharpening as adversarial self-instrumentation</h3>
-<p>A scheduled daily lens is applied to current-state work. Different
-lenses operate on different days: pattern transfer, adversarial mirror,
+<p>From March to October 2026 a scheduled daily lens was applied to current-state work; I deleted it in October. Different lenses operated on different days: pattern transfer, adversarial mirror,
 contrarian scanner, pursuit-of-mischief, pre-mortem, anthropologist.
-Each lens forces a specific frame on the loaded substrate that the
+Each lens forced a specific frame on the loaded substrate that the
 substrate would not generate on its own.</p>
 <p>Two diagnostic instances illustrate the mechanism. In late April
 2026, a DNA Polymerase III pattern-transfer lens surfaced the
@@ -2108,14 +2061,7 @@ axis is structural; review architectures that ignore it produce
 false-positive promotions.</p>
 <h3 id="diff-aware-code-review">§7.4 Diff-aware code review</h3>
 <p>The consultation system reads git diff via a <code>--diff</code>
-flag. Different agents are dispatched for different review contexts:
-code review uses the adversarial Claude variant plus Google-lineage plus
-contrarian agents; architecture review adds the frontier-scout agent
-(“does this already exist?”); documentation review adds the
-narrative-intelligence agent (“is the story honest?”); flow-meta review
-uses adversarial Claude variant plus contrarian; essay review uses
-adversarial Claude variant plus Google-lineage plus
-narrative-intelligence.</p>
+flag. Different agents are dispatched for different review contexts. In April 2026 code review used the adversarial Claude variant plus the Google-lineage and contrarian agents; the meshes have since changed by review type and now rest on at least two lineages besides Claude where the repo allows.</p>
 <p>The structural claim: multi-reviewer-before-publish is non-negotiable
 because single-author review misses bug classes. One diagnostic
 instance: a v0.2.0 release of an internal library had a consultation
@@ -2261,7 +2207,7 @@ twenty-four-month, or sixty-month horizons is an open question.</p>
 documented outcomes is isolable from the operator’s contribution. At
 n=1, architecture-effects and operator-effects co-occur. The specific
 work-product instances cited in §0.1 (audit reports preferred over
-higher-cost alternatives, iOS apps passing 2026 tightened-review
+higher-cost alternatives, two iOS apps passing 2026 tightened-review
 criteria, operator-class third-party recognition of adjacent published
 work) are joint outcomes of architecture-plus-operator coupling. A
 skeptical reader can argue that comparable outcomes might have followed
@@ -2397,9 +2343,7 @@ rich epistemology, extended cognitive hygiene, generalized verification
 tooling, first-person empirical material, structured failure-mode
 taxonomies. This paper is one operator-pair’s deposit against those
 gaps.</p>
-<p>What was deposited: an architecture with eight principal components
-and a four-layer memory substrate, documented at the level of
-cost-reduction-justified component choice. A sixteen-mode failure-mode
+<p>What was deposited: an architecture of eight components as it stood in April 2026, most of them since retired or replaced, and a layered memory substrate. A sixteen-mode failure-mode
 catalogue organized by locus, with specific mitigations attached and
 explicit acknowledgment of which residues remain unresolved.
 Operator-cognition phenomenology bracketed structurally to avoid the LLM
@@ -2449,8 +2393,7 @@ Generalized Intelligence Lives in the Arrangement Around the
 Generator.</em> Zenodo. https://doi.org/10.5281/zenodo.19570642</li>
 <li>Clapham, P. (2026b). Brainfry. <em>Nemo Operans</em>.
 https://nemooperans.com/brainfry</li>
-<li>Clapham, P. (2026c). Anneal-memory: a four-layer memory architecture
-with cross-layer immune system for AI agents.
+<li>Clapham, P. (2026c). Anneal-memory: living memory for AI agents.
 https://github.com/phillipclapham/anneal-memory</li>
 <li>Clapham, P. (2026d). Selected adjacent essays (<em>Anarchism with
 Invariants</em>; <em>Cost-Parity Reversal</em>; <em>Middle
