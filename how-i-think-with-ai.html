@@ -93,7 +93,7 @@
 <blockquote class="correction-note">
 <p><strong>Correction note — October 4, 2026 (revised October 5, 2026).</strong> §1.A.3 says &ldquo;direct evidence of erosion at six months is absent.&rdquo; I&rsquo;d now say the opposite: by my own assessment, not a measurement, my execution-level skills did erode. I read that as reskilling, not deskilling: execution traded for strategic and metacognitive bandwidth, the way a CEO stops being good at their old individual-contributor job. Much of the setup described in §2 (the single continuity.md file, the relay, the bilateral blackboard) has also been retired. The &ldquo;active principle demotion&rdquo; in §2.3 names a mechanism no code implemented; the name was removed from anneal-memory&rsquo;s README in version 0.3.2 (May 2026) (see the v1.1 note on <a href="/a-structural-theory-of-harnesses">A Structural Theory of Harnesses</a>). The substrate-care prescriptions in §6.5 are ones I no longer follow. More: <a href="/the-suit-not-the-butler">The Suit, Not the Butler</a>, Section II, &ldquo;What it costs you, and what you get for it.&rdquo;</p>
 <p><strong>Note, October 10, 2026.</strong> The paper describes Chip, a second AI partner on my work workstation, in the present tense. That was my day job, which ended in July, and Chip went with it. The Chip passages describe how things stood in spring 2026.</p>
-<p><strong>Update — October 29, 2026.</strong> Several statements here described the system as it stood in April 2026 and have since changed; I have dated them where they appear. The anneal-memory library dropped its association and affect layers in version 1.0.2, and its audit trail is tamper-evident rather than immutable. The paper also named a third &ldquo;implementation,&rdquo; an academic testbed, that I cannot source, so it is removed. The work window began in October 2025, and by April 2026 two of my apps had passed store review.</p>
+<p><strong>Update — October 29, 2026.</strong> Several statements here described the system as it stood in April 2026 and have since changed; I have dated them where they appear. The anneal-memory library stopped forming associations and began ignoring the affect input in version 1.0.2, and its audit trail is tamper-evident rather than immutable. The paper also named a third &ldquo;implementation,&rdquo; an academic testbed, that I cannot source, so it is removed. The work window began in October 2025, and by April 2026 two of my apps had passed store review.</p>
 </blockquote>
 
 <h2 id="abstract">Abstract</h2>
@@ -808,7 +808,7 @@ prominently Anthropic’s enterprise memory layer (April 2026), which
 provides workspace-scoped, filesystem-mounted Markdown context with
 audit logging at the access boundary. The structural correspondence is
 to the continuity layer above (the slow, behavioral-instruction layer
-with persistence and retention controls). The citation-validated immune system, which gates what may graduate into long-term memory, was not present in commercial offerings as of April 2026 (the Hebbian and affect layers I describe here were removed from the library in 1.0.2).</p>
+with persistence and retention controls). The citation-validated immune system, which gates what may graduate into long-term memory, was not present in commercial offerings as of April 2026 (the Hebbian and affect layers I describe here stopped working in 1.0.2: links are no longer formed and the affect input is ignored).</p>
 <p>The audit surface differs by layer as well. Workspace-scoped
 enterprise audit answers <em>who accessed which memory within which
 workspace</em> — an access-control question. The tamper-evident
@@ -1562,7 +1562,7 @@ throughput required is unreliable. Memory drifts. Verification becomes
 ceremony. Rest is displaced. Review fatigue accumulates. The
 operator-side metacognitive degradation §1.A.4 names is real and
 undermines exactly the discipline Clark’s term suggests. The empirical
-observation across seven months: every reliance on operator vigilance as the hygiene mechanism at sustained throughput failed at some point in the six-month window.</p>
+observation across six months: every reliance on operator vigilance as the hygiene mechanism at sustained throughput failed at some point in the six-month window.</p>
 <p>The mitigations that proved durable were not improved discipline.
 They were structural invariants in the substrate code that make
 hygiene-failure structurally unskippable rather than dependent on
