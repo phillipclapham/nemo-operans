@@ -10,6 +10,13 @@ required: generation stamps a dirty page with today's date and a clean checkout 
 it from the commit's author date, so the two legitimately differ by a day or so (late
 commit, rebase). A squash-merge days after generation would trip it; regenerate then.
 
+It also checks correction-note stamps (stamp_problems). A note's "(updated <date>)" or
+"(revised <date>)" must not be older than the day that note's own text last changed,
+and must not be later than today. A note header with a parenthesised "(updated ...)" or
+"(revised ...)" that is not a readable date is reported. Notes with no stamp are not checked. A stamp that falls
+behind describes a version of the note that no longer exists: --check fails on it, and
+generation only warns.
+
 The hand-maintained sitemap drifted two months and six essays out of date, and
 its homepage <lastmod> ended up OLDER than the homepage's real last change --
 which is precisely the signal that tells a crawler not to re-fetch a page whose
@@ -30,6 +37,7 @@ across runs so the file does not churn on every regeneration.
 """
 
 import datetime
+import functools
 import glob
 import json
 import os
@@ -70,6 +78,146 @@ def git_last_modified(repo, filename):
     ).stdout.strip()
     # Untracked-but-unreported, or a repo with no history yet.
     return out or today()
+
+
+# A correction note is a <blockquote class="correction-note"> of paragraphs. One paragraph
+# carries a stamp, "(updated <date>)" or "(revised <date>)", in its header, naming the day
+# the note's own text last changed. The stamp is typed by hand and drifts: the cost-parity
+# essay's note was reworded on 2026-11-15 and still said November 6. A paragraph whose
+# header carries its own full date and no stamp is an addendum, dated separately, so an
+# edit to it does not change the note.
+CORRECTION_RE = re.compile(
+    r'<blockquote\b[^>]*\bclass="[^"]*\bcorrection-note\b[^"]*"[^>]*>.*?</blockquote>', re.S)
+PARAGRAPH_RE = re.compile(r"<p\b[^>]*>.*?</p>", re.S)
+HEADER_RE = re.compile(r"<strong>(.*?)</strong>", re.S)
+# A paragraph's header is its LEADING run of <strong> elements. Bold words later in the prose
+# are body text: a bold "(updated draft)" there is neither a stamp nor a stamp problem.
+LEAD_RE = re.compile(r"<p\b[^>]*>\s*((?:<strong>.*?</strong>\s*)+)", re.S)
+TAG_RE = re.compile(r"<[^>]+>")
+STAMP_RE = re.compile(r" ?\((?:updated|revised) ([A-Z][a-z]+ \d{1,2}, \d{4})\)")
+# A stamp is the parenthesised form, in any date format, and its closing paren is optional so
+# a truncated "(updated November 6, 2026" is still seen as a stamp and reported, never read
+# as no stamp. The bare word "updated" is not one: an addendum headed "Updated — <date>"
+# must not read as a stamp.
+STAMP_ANY_RE = re.compile(r" ?\((?i:updated|revised)\b[^)]*\)?")
+DATE_RE = re.compile(
+    r"\b(?:January|February|March|April|May|June|July|August|September|October|November|"
+    r"December) \d{1,2}, \d{4}\b")
+ONE_DAY = datetime.timedelta(days=1)
+
+
+def header_text(paragraph):
+    """The text inside a paragraph's leading <strong> header run, with tags removed."""
+    lead = LEAD_RE.match(paragraph)
+    if not lead:
+        return ""
+    return " ".join(TAG_RE.sub("", part) for part in HEADER_RE.findall(lead.group(1)))
+
+
+def note_text(block):
+    """One note's own text: its paragraphs with stamps removed and dated addenda left out.
+
+    The first paragraph is the note itself, stamped or not: a note that gains its stamp in a
+    later commit must not read as new on that day. An unlabelled paragraph after it, such as
+    a sign-off, is part of the note. A later paragraph whose header carries a full date and
+    no stamp is an addendum with its own date.
+    """
+    kept = []
+    for index, paragraph in enumerate(PARAGRAPH_RE.findall(block) or [block]):
+        head = header_text(paragraph)
+        if index and DATE_RE.search(head) and not STAMP_ANY_RE.search(head):
+            continue
+        # Only the header's stamp is dropped; parenthesised prose in the body is note text.
+        lead = LEAD_RE.match(paragraph)
+        if lead:
+            paragraph = (paragraph[:lead.start(1)] + STAMP_ANY_RE.sub("", lead.group(1))
+                         + paragraph[lead.end(1):])
+        kept.append(paragraph)
+    return "\n".join(kept)
+
+
+@functools.lru_cache(maxsize=None)
+def git_show(repo, sha, filename):
+    """The file's content at a commit. The path is cwd-relative, so a repo inside a larger one works."""
+    return subprocess.run(
+        ["git", "show", f"{sha}:./{filename}"],
+        cwd=repo, capture_output=True, encoding="utf-8", errors="replace",
+    ).stdout
+
+
+def note_texts(source):
+    return [note_text(block) for block in CORRECTION_RE.findall(source)]
+
+
+def note_changed_on(repo, filename, text, today):
+    """The day (as git dates it) one note's text last changed.
+
+    `text` is the note as the working tree has it (note_text). Walks the file's commits
+    newest first for as long as a commit still holds that text; the oldest commit of that
+    run introduced it, and its author date is the answer. Text that differs from HEAD, or a
+    file with no history, counts as changed today, the way git_last_modified counts a dirty
+    file.
+    """
+    log = subprocess.run(
+        ["git", "log", "--format=%H %ad", "--date=short", "--", filename],
+        cwd=repo, capture_output=True, encoding="utf-8",
+    ).stdout
+    commits = [line.split() for line in log.splitlines() if line.strip()]
+
+    def holds(sha):
+        return text in note_texts(git_show(repo, sha, filename))
+
+    if not commits or not holds(commits[0][0]):
+        return today
+    changed = commits[0][1]
+    for sha, date in commits[1:]:
+        if not holds(sha):
+            break
+        changed = date
+    return datetime.date.fromisoformat(changed)
+
+
+def stamp_problems(repo, names, today=None):
+    """Correction-note stamps that are unreadable, too far ahead, or older than their text.
+
+    Notes with no stamp are not checked. A header holding a parenthesised "(updated ...)" or
+    "(revised ...)" that is not "<Month D, YYYY>" is reported, so a stamp typed some other
+    way cannot pass unseen. One day
+    either way is tolerated, the same as lastmod: a commit can land after midnight, or in
+    another time zone from the machine that checks it.
+    """
+    today = today or datetime.date.today()
+    problems = []
+    for name in names:
+        with open(os.path.join(repo, name), encoding="utf-8") as handle:
+            source = handle.read()
+        for block in CORRECTION_RE.findall(source):
+            stamps = []
+            for paragraph in PARAGRAPH_RE.findall(block) or [block]:
+                head = header_text(paragraph)
+                if STAMP_ANY_RE.search(head) and not STAMP_RE.search(head):
+                    problems.append(
+                        f"{name}: a note header has an (updated ...) or (revised ...) with no "
+                        "readable (updated <Month D, YYYY>) stamp")
+                stamps += STAMP_RE.findall(head)
+            if not stamps:
+                continue
+            changed = note_changed_on(repo, name, note_text(block), today)
+            for stamp in stamps:
+                try:
+                    day = datetime.datetime.strptime(stamp, "%B %d, %Y").date()
+                except ValueError:
+                    problems.append(f"{name}: stamp {stamp!r} is not a date")
+                    continue
+                if day > today + ONE_DAY:
+                    problems.append(
+                        f"{name}: correction note is stamped {day.isoformat()}, "
+                        f"which is after today ({today.isoformat()})")
+                elif day < changed - ONE_DAY:
+                    problems.append(
+                        f"{name}: correction note is stamped {day.isoformat()}, "
+                        f"but its text last changed {changed.isoformat()}")
+    return problems
 
 
 def ld_nodes(data):
@@ -185,6 +333,8 @@ def main():
             print(f"  - {problem}", file=sys.stderr)
         return 1
 
+    stamp_issues = stamp_problems(repo, [p["name"] for p in pages])
+
     home = [p for p in pages if p["name"] == "index.html"]
     about = [p for p in pages if p["name"] == "about.html"]
     essays = [p for p in pages if p["name"] not in ("index.html", "about.html")]
@@ -210,6 +360,8 @@ def main():
     if check:
         for warning in warnings:
             print(f"WARNING: {warning}")
+        for issue in stamp_issues:
+            print(f"STAMP: {issue}", file=sys.stderr)
         current = open(out, encoding="utf-8").read() if os.path.exists(out) else ""
         if strip_lastmod(current) != strip_lastmod(rendered):
             print("sitemap.xml is out of date (URLs, order, priority or a missing <lastmod>): run "
@@ -234,6 +386,8 @@ def main():
                 print(f"sitemap.xml <lastmod> {have} is older than the page's "
                       f"last change {want}: regenerate", file=sys.stderr)
                 return 1
+        if stamp_issues:
+            return 1
         print("sitemap.xml is current")
         return 0
 
@@ -247,6 +401,8 @@ def main():
     # anyone.
     for warning in warnings:
         print(f"WARNING: {warning}")
+    for issue in stamp_issues:
+        print(f"WARNING: stamp: {issue}")
     return 0
 
 
