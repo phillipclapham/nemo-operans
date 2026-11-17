@@ -198,6 +198,23 @@ class CorrectionStampTests(unittest.TestCase):
         self.assertEqual(len(found), 1, found)
         self.assertIn("no readable", found[0])
 
+    def test_unreadable_stamp_beside_a_readable_one_in_one_header_is_reported(self):
+        # Reproduced 2026-11-17 (Diogenes LOW, f61e387): the guard tested the whole header, so a
+        # readable stamp in it hid an unreadable one beside it. Either order is reported once.
+        cases = [
+            ("(revised November 6, 2026) (updated 6 Nov 2026)", 1),
+            ("(updated 6 Nov 2026) (revised November 6, 2026)", 1),
+            ("(revised November 6, 2026) (updated November 6, 2026)", 0),
+        ]
+        for index, (header, expected) in enumerate(cases):
+            with self.subTest(header=header):
+                self.write(note_essay(header, f"text {index}"))
+                commit(self.repo, "2026-11-06")
+                found = self.problems()
+                self.assertEqual(len(found), expected, found)
+                if expected:
+                    self.assertIn("no readable", found[0])
+
     def test_word_updated_in_the_note_body_is_not_a_stamp_problem(self):
         self.write(note_essay("(updated November 6, 2026)", "Section 5 was updated in place."))
         commit(self.repo, "2026-11-06")

@@ -11,11 +11,12 @@ it from the commit's author date, so the two legitimately differ by a day or so 
 commit, rebase). A squash-merge days after generation would trip it; regenerate then.
 
 It also checks correction-note stamps (stamp_problems). A note's "(updated <date>)" or
-"(revised <date>)" must not be older than the day that note's own text last changed,
-and must not be later than today. A note header with a parenthesised "(updated ...)" or
-"(revised ...)" that is not a readable date is reported. Notes with no stamp are not checked. A stamp that falls
-behind describes a version of the note that no longer exists: --check fails on it, and
-generation only warns.
+"(revised <date>)" is reported when it is more than a day older than the day that note's
+own text last changed, or more than a day later than today. A note header with a
+parenthesised "(updated ...)" or "(revised ...)" that is not a readable date is reported,
+including one beside a readable stamp in the same header. Notes with no stamp are not
+checked. A stamp that falls behind describes a version of the note that no longer exists:
+--check fails on it, and generation only warns.
 
 The hand-maintained sitemap drifted two months and six essays out of date, and
 its homepage <lastmod> ended up OLDER than the homepage's real last change --
@@ -182,9 +183,10 @@ def stamp_problems(repo, names, today=None):
 
     Notes with no stamp are not checked. A header holding a parenthesised "(updated ...)" or
     "(revised ...)" that is not "<Month D, YYYY>" is reported, so a stamp typed some other
-    way cannot pass unseen. One day
-    either way is tolerated, the same as lastmod: a commit can land after midnight, or in
-    another time zone from the machine that checks it.
+    way cannot pass unseen. Each stamp in a header is tested on its own, so a readable one
+    cannot hide an unreadable one beside it. Each check allows one day of slack, the same
+    as lastmod: a commit can land after midnight, or in another time zone from the machine
+    that checks it.
     """
     today = today or datetime.date.today()
     problems = []
@@ -195,7 +197,7 @@ def stamp_problems(repo, names, today=None):
             stamps = []
             for paragraph in PARAGRAPH_RE.findall(block) or [block]:
                 head = header_text(paragraph)
-                if STAMP_ANY_RE.search(head) and not STAMP_RE.search(head):
+                if any(not STAMP_RE.fullmatch(m.group(0)) for m in STAMP_ANY_RE.finditer(head)):
                     problems.append(
                         f"{name}: a note header has an (updated ...) or (revised ...) with no "
                         "readable (updated <Month D, YYYY>) stamp")
