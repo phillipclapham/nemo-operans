@@ -201,7 +201,8 @@ def stamp_problems(repo, names, today=None):
                     if not STAMP_RE.fullmatch(m.group(0)):
                         problems.append(
                             f"{name}: the stamp {m.group(0).strip()!r} in a note header is "
-                            "unreadable (expected (updated <Month D, YYYY>))")
+                            "unreadable (expected (updated <Month D, YYYY>) or "
+                            "(revised <Month D, YYYY>))")
                 stamps += STAMP_RE.findall(head)
             if not stamps:
                 continue
