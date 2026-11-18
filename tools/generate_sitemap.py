@@ -197,10 +197,11 @@ def stamp_problems(repo, names, today=None):
             stamps = []
             for paragraph in PARAGRAPH_RE.findall(block) or [block]:
                 head = header_text(paragraph)
-                if any(not STAMP_RE.fullmatch(m.group(0)) for m in STAMP_ANY_RE.finditer(head)):
-                    problems.append(
-                        f"{name}: a note header has an (updated ...) or (revised ...) with no "
-                        "readable (updated <Month D, YYYY>) stamp")
+                for m in STAMP_ANY_RE.finditer(head):
+                    if not STAMP_RE.fullmatch(m.group(0)):
+                        problems.append(
+                            f"{name}: the stamp {m.group(0).strip()!r} in a note header is "
+                            "unreadable (expected (updated <Month D, YYYY>))")
                 stamps += STAMP_RE.findall(head)
             if not stamps:
                 continue

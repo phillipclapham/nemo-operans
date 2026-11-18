@@ -196,24 +196,29 @@ class CorrectionStampTests(unittest.TestCase):
         commit(self.repo, "2026-11-06")
         found = self.problems()
         self.assertEqual(len(found), 1, found)
-        self.assertIn("no readable", found[0])
+        self.assertIn("unreadable", found[0])
+        self.assertIn("(updated 6 November 2026)", found[0])
 
     def test_unreadable_stamp_beside_a_readable_one_in_one_header_is_reported(self):
         # Reproduced 2026-11-17 (Diogenes LOW, f61e387): the guard tested the whole header, so a
         # readable stamp in it hid an unreadable one beside it. Either order is reported once.
+        # The message names the bad stamp and says it is unreadable; it must not claim that no
+        # readable stamp exists, because the header holds one.
         cases = [
-            ("(revised November 6, 2026) (updated 6 Nov 2026)", 1),
-            ("(updated 6 Nov 2026) (revised November 6, 2026)", 1),
-            ("(revised November 6, 2026) (updated November 6, 2026)", 0),
+            ("(revised November 6, 2026) (updated 6 Nov 2026)", 1, "(updated 6 Nov 2026)"),
+            ("(updated 6 Nov 2026) (revised November 6, 2026)", 1, "(updated 6 Nov 2026)"),
+            ("(revised November 6, 2026) (updated November 6, 2026)", 0, None),
         ]
-        for index, (header, expected) in enumerate(cases):
+        for index, (header, expected, bad) in enumerate(cases):
             with self.subTest(header=header):
                 self.write(note_essay(header, f"text {index}"))
                 commit(self.repo, "2026-11-06")
                 found = self.problems()
                 self.assertEqual(len(found), expected, found)
                 if expected:
-                    self.assertIn("no readable", found[0])
+                    self.assertIn("unreadable", found[0])
+                    self.assertIn(bad, found[0])
+                    self.assertNotIn("no readable", found[0])
 
     def test_word_updated_in_the_note_body_is_not_a_stamp_problem(self):
         self.write(note_essay("(updated November 6, 2026)", "Section 5 was updated in place."))
@@ -322,7 +327,8 @@ class CorrectionStampTests(unittest.TestCase):
         commit(self.repo, "2026-11-06")
         found = self.problems()
         self.assertEqual(len(found), 1, found)
-        self.assertIn("no readable", found[0])
+        self.assertIn("unreadable", found[0])
+        self.assertIn("(updated 6 Nov 2026)", found[0])
 
     def test_reformatting_the_stamp_does_not_move_the_date(self):
         self.write(note_essay("(updated 6 November 2026)", "text A"))
@@ -385,7 +391,8 @@ class CorrectionStampTests(unittest.TestCase):
         commit(self.repo, "2026-11-06")
         found = self.problems()
         self.assertEqual(len(found), 1, found)
-        self.assertIn("no readable", found[0])
+        self.assertIn("unreadable", found[0])
+        self.assertIn("(updated November 6, 2026", found[0])
 
     def test_a_bold_parenthetical_in_the_body_is_note_text_and_not_a_stamp_problem(self):
         # codex and complement, L3 round 2: only the leading <strong> run is the header.
