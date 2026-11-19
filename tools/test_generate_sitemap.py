@@ -199,6 +199,7 @@ class CorrectionStampTests(unittest.TestCase):
         self.assertIn("unreadable", found[0])
         self.assertIn("(updated 6 November 2026)", found[0])
         # Both keywords are accepted by the check, so the hint names both.
+        self.assertIn("(updated <Month D, YYYY>)", found[0])
         self.assertIn("(revised <Month D, YYYY>)", found[0])
 
     def test_unreadable_stamp_beside_a_readable_one_in_one_header_is_reported(self):
